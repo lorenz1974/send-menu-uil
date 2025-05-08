@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
+import {
+  Card,
+  Form,
+  Button,
+  Row,
+  Col,
+  InputGroup,
+  Alert,
+} from 'react-bootstrap'
 import DishCategory from './DishCategory'
 
 const MenuForm = () => {
@@ -74,17 +83,6 @@ const MenuForm = () => {
     return menuData
   }
 
-  // Gestisce il click su "Conferma menù" - salva senza navigare
-  const handleConfirm = () => {
-    saveMenu()
-    setConfirmMessage('Menu salvato con successo!')
-
-    // Nasconde il messaggio dopo 3 secondi
-    setTimeout(() => {
-      setConfirmMessage('')
-    }, 3000)
-  }
-
   // Gestisce il click su "Anteprima e Invio" - salva e naviga alla pagina di riepilogo
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -102,67 +100,77 @@ const MenuForm = () => {
   }
 
   return (
-    <div className='menu-form-container'>
-      <h1>Composizione Menu del Giorno</h1>
+    <Card className='shadow'>
+      <Card.Header className='bg-primary text-white'>
+        <h2 className='mb-0'>Composizione Menu del Giorno</h2>
+      </Card.Header>
 
-      <div className='menu-header'>
-        <div className='date-selector'>
-          <label>Data del menu:</label>
-          <input
-            type='date'
-            value={menuDate}
-            onChange={(e) => setMenuDate(e.target.value)}
-          />
-        </div>
+      <Card.Body>
+        <Row className='mb-4'>
+          <Col md={6} className='mb-3 mb-md-0'>
+            <InputGroup>
+              <InputGroup.Text>Data del menu:</InputGroup.Text>
+              <Form.Control
+                type='date'
+                value={menuDate}
+                onChange={(e) => setMenuDate(e.target.value)}
+              />
+            </InputGroup>
+          </Col>
+          <Col md={6} className='d-flex justify-content-md-end'>
+            <Link to='/suggestions' className='btn btn-info w-100 w-md-auto'>
+              Gestisci Suggerimenti
+            </Link>
+          </Col>
+        </Row>
 
-        <div className='suggestions-link'>
-          <Link to='/suggestions' className='manage-suggestions-btn'>
-            Gestisci Suggerimenti
-          </Link>
-        </div>
-      </div>
+        <Form onSubmit={handleSubmit}>
+          <Row>
+            <Col md={4} className='mb-4'>
+              <DishCategory
+                title='Primi'
+                dishes={primi}
+                setDishes={setPrimi}
+                savedDishes={savedPrimi}
+              />
+            </Col>
 
-      <form onSubmit={handleSubmit}>
-        <div className='categories-container'>
-          <DishCategory
-            title='Primi'
-            dishes={primi}
-            setDishes={setPrimi}
-            savedDishes={savedPrimi}
-          />
+            <Col md={4} className='mb-4'>
+              <DishCategory
+                title='Secondi'
+                dishes={secondi}
+                setDishes={setSecondi}
+                savedDishes={savedSecondi}
+              />
+            </Col>
 
-          <DishCategory
-            title='Secondi'
-            dishes={secondi}
-            setDishes={setSecondi}
-            savedDishes={savedSecondi}
-          />
+            <Col md={4} className='mb-4'>
+              <DishCategory
+                title='Contorni'
+                dishes={contorni}
+                setDishes={setContorni}
+                savedDishes={savedContorni}
+              />
+            </Col>
+          </Row>
 
-          <DishCategory
-            title='Contorni'
-            dishes={contorni}
-            setDishes={setContorni}
-            savedDishes={savedContorni}
-          />
-        </div>
+          {confirmMessage && (
+            <Alert variant='success' className='text-center mb-4'>
+              {confirmMessage}
+            </Alert>
+          )}
 
-        {confirmMessage && (
-          <div className='confirmation-message'>{confirmMessage}</div>
-        )}
-
-        <div className='form-actions'>
-          <button type='button' className='reset-btn' onClick={handleReset}>
-            Nuovo Menu
-          </button>
-          <button type='button' className='confirm-btn' onClick={handleConfirm}>
-            Conferma Menù
-          </button>
-          <button type='submit' className='submit-btn'>
-            Anteprima e Invio
-          </button>
-        </div>
-      </form>
-    </div>
+          <div className='d-flex flex-column flex-md-row justify-content-between gap-2'>
+            <Button variant='secondary' size='lg' onClick={handleReset}>
+              Nuovo Menu
+            </Button>
+            <Button type='submit' variant='primary' size='lg'>
+              Anteprima e Invio
+            </Button>
+          </div>
+        </Form>
+      </Card.Body>
+    </Card>
   )
 }
 

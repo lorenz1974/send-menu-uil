@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Card, Button, Form, Alert } from 'react-bootstrap'
 import axios from 'axios'
 
 const SendMenu = () => {
@@ -106,73 +107,102 @@ const SendMenu = () => {
 
   if (!menuData || Object.keys(menuData).length === 0) {
     return (
-      <div className='send-container'>
-        <h1>Menu non disponibile</h1>
-        <p>
-          Non sono stati trovati dati del menu. Torna alla pagina di
-          composizione.
-        </p>
-        <button onClick={() => navigate('/')} className='back-btn'>
-          Torna alla composizione
-        </button>
-      </div>
+      <Card className='shadow'>
+        <Card.Header className='bg-danger text-white'>
+          <h2 className='mb-0'>Menu non disponibile</h2>
+        </Card.Header>
+        <Card.Body className='text-center p-5'>
+          <p className='lead mb-4'>
+            Non sono stati trovati dati del menu. Torna alla pagina di
+            composizione.
+          </p>
+          <Button variant='primary' size='lg' onClick={() => navigate('/')}>
+            Torna alla composizione
+          </Button>
+        </Card.Body>
+      </Card>
     )
   }
 
   return (
-    <div className='send-container'>
-      <h1>Invio Menu del {formattedDate}</h1>
+    <Card className='shadow'>
+      <Card.Header className='bg-primary text-white'>
+        <h2 className='mb-0'>Invio Menu del {formattedDate}</h2>
+      </Card.Header>
 
-      <div className='preview-container'>
-        <h3>Anteprima del messaggio</h3>
-        <div className='menu-preview'>{formattedText}</div>
-      </div>
+      <Card.Body>
+        <Card className='mb-4'>
+          <Card.Header className='bg-light'>
+            <h3 className='mb-0'>Anteprima del messaggio</h3>
+          </Card.Header>
+          <Card.Body>
+            <pre
+              className='bg-light p-3 border rounded'
+              style={{ whiteSpace: 'pre-wrap' }}
+            >
+              {formattedText}
+            </pre>
+          </Card.Body>
+        </Card>
 
-      <div className='send-options'>
-        <h3>Modalità di invio</h3>
-        <div className='option'>
-          <input
-            type='checkbox'
-            id='teams'
-            checked={sendTeams}
-            onChange={() => setSendTeams(!sendTeams)}
-          />
-          <label htmlFor='teams'>Invia tramite Teams</label>
-        </div>
+        <Card className='mb-4'>
+          <Card.Header className='bg-light'>
+            <h3 className='mb-0'>Modalità di invio</h3>
+          </Card.Header>
+          <Card.Body>
+            <Form.Check
+              className='mb-2'
+              type='checkbox'
+              id='teams'
+              label='Invia tramite Teams'
+              checked={sendTeams}
+              onChange={() => setSendTeams(!sendTeams)}
+            />
 
-        <div className='option'>
-          <input
-            type='checkbox'
-            id='email'
-            checked={sendEmail}
-            onChange={() => setSendEmail(!sendEmail)}
-          />
-          <label htmlFor='email'>Invia tramite Email</label>
-        </div>
-      </div>
+            <Form.Check
+              type='checkbox'
+              id='email'
+              label='Invia tramite Email'
+              checked={sendEmail}
+              onChange={() => setSendEmail(!sendEmail)}
+            />
+          </Card.Body>
+        </Card>
 
-      {result.status && (
-        <div className={`send-result ${result.status}`}>{result.message}</div>
-      )}
-
-      <div className='send-actions'>
-        <button onClick={handleBack} className='back-btn' disabled={sending}>
-          Indietro
-        </button>
-        <button
-          onClick={handleSend}
-          className='send-btn'
-          disabled={sending || (!sendTeams && !sendEmail)}
-        >
-          {sending ? 'Invio in corso...' : 'Invia Menu'}
-        </button>
-        {result.status === 'success' && (
-          <button onClick={handleNewMenu} className='reset-btn'>
-            Nuovo Menu
-          </button>
+        {result.status && (
+          <Alert
+            variant={result.status === 'success' ? 'success' : 'danger'}
+            className='mb-4'
+          >
+            {result.message}
+          </Alert>
         )}
-      </div>
-    </div>
+
+        <div className='d-flex flex-column flex-md-row justify-content-between gap-2'>
+          <Button
+            variant='secondary'
+            size='lg'
+            onClick={handleBack}
+            disabled={sending}
+          >
+            Indietro
+          </Button>
+          <Button
+            variant='primary'
+            size='lg'
+            onClick={handleSend}
+            disabled={sending || (!sendTeams && !sendEmail)}
+          >
+            {sending ? 'Invio in corso...' : 'Invia Menu'}
+          </Button>
+          {result.status === 'success' && (
+            <Button variant='success' size='lg' onClick={handleNewMenu}>
+              Nuovo Menu
+            </Button>
+          )}
+        </div>
+      </Card.Body>
+    </Card>
   )
 }
 

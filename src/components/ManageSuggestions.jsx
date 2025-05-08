@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Card, Button, Alert, Row, Col, ListGroup } from 'react-bootstrap'
 
 const ManageSuggestions = () => {
   const navigate = useNavigate()
@@ -103,113 +104,160 @@ const ManageSuggestions = () => {
   }
 
   return (
-    <div className='manage-suggestions-container'>
-      <h1>Gestione Suggerimenti</h1>
+    <Card className='shadow'>
+      <Card.Header className='bg-info text-white'>
+        <h2 className='mb-0'>Gestione Suggerimenti</h2>
+      </Card.Header>
 
-      {message && <div className='confirmation-message'>{message}</div>}
-
-      <div className='suggestions-categories'>
-        <div className='suggestion-category'>
-          <div className='category-header'>
-            <h2>Primi Piatti ({savedPrimi.length})</h2>
-            {savedPrimi.length > 0 && (
-              <button
-                className='clear-btn'
-                onClick={() => handleClearCategory('primi')}
-              >
-                Rimuovi tutti
-              </button>
-            )}
-          </div>
-
-          {savedPrimi.length > 0 ? (
-            <ul className='suggestions-list'>
-              {savedPrimi.map((dish, index) => (
-                <li key={index}>
-                  {dish}
-                  <button onClick={() => handleRemoveDish('primi', dish)}>
-                    ✕
-                  </button>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className='empty-message'>Nessun suggerimento salvato</p>
-          )}
-        </div>
-
-        <div className='suggestion-category'>
-          <div className='category-header'>
-            <h2>Secondi Piatti ({savedSecondi.length})</h2>
-            {savedSecondi.length > 0 && (
-              <button
-                className='clear-btn'
-                onClick={() => handleClearCategory('secondi')}
-              >
-                Rimuovi tutti
-              </button>
-            )}
-          </div>
-
-          {savedSecondi.length > 0 ? (
-            <ul className='suggestions-list'>
-              {savedSecondi.map((dish, index) => (
-                <li key={index}>
-                  {dish}
-                  <button onClick={() => handleRemoveDish('secondi', dish)}>
-                    ✕
-                  </button>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className='empty-message'>Nessun suggerimento salvato</p>
-          )}
-        </div>
-
-        <div className='suggestion-category'>
-          <div className='category-header'>
-            <h2>Contorni ({savedContorni.length})</h2>
-            {savedContorni.length > 0 && (
-              <button
-                className='clear-btn'
-                onClick={() => handleClearCategory('contorni')}
-              >
-                Rimuovi tutti
-              </button>
-            )}
-          </div>
-
-          {savedContorni.length > 0 ? (
-            <ul className='suggestions-list'>
-              {savedContorni.map((dish, index) => (
-                <li key={index}>
-                  {dish}
-                  <button onClick={() => handleRemoveDish('contorni', dish)}>
-                    ✕
-                  </button>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className='empty-message'>Nessun suggerimento salvato</p>
-          )}
-        </div>
-      </div>
-
-      <div className='manage-actions'>
-        {(savedPrimi.length > 0 ||
-          savedSecondi.length > 0 ||
-          savedContorni.length > 0) && (
-          <button className='clear-all-btn' onClick={handleClearAll}>
-            Rimuovi tutti i suggerimenti
-          </button>
+      <Card.Body>
+        {message && (
+          <Alert variant='success' className='mb-4'>
+            {message}
+          </Alert>
         )}
-        <button className='back-btn' onClick={handleBack}>
-          Torna al menu
-        </button>
-      </div>
-    </div>
+
+        <Row>
+          <Col md={4} className='mb-4'>
+            <Card className='h-100'>
+              <Card.Header className='bg-light d-flex justify-content-between align-items-center'>
+                <h3 className='mb-0'>Primi Piatti ({savedPrimi.length})</h3>
+                {savedPrimi.length > 0 && (
+                  <Button
+                    variant='danger'
+                    size='sm'
+                    onClick={() => handleClearCategory('primi')}
+                  >
+                    Rimuovi tutti
+                  </Button>
+                )}
+              </Card.Header>
+              <Card.Body>
+                {savedPrimi.length > 0 ? (
+                  <ListGroup style={{ maxHeight: '300px', overflowY: 'auto' }}>
+                    {savedPrimi.map((dish, index) => (
+                      <ListGroup.Item
+                        key={index}
+                        className='d-flex justify-content-between align-items-center'
+                      >
+                        {dish}
+                        <Button
+                          variant='danger'
+                          size='sm'
+                          onClick={() => handleRemoveDish('primi', dish)}
+                        >
+                          &times;
+                        </Button>
+                      </ListGroup.Item>
+                    ))}
+                  </ListGroup>
+                ) : (
+                  <p className='text-muted text-center py-3'>
+                    Nessun suggerimento salvato
+                  </p>
+                )}
+              </Card.Body>
+            </Card>
+          </Col>
+
+          <Col md={4} className='mb-4'>
+            <Card className='h-100'>
+              <Card.Header className='bg-light d-flex justify-content-between align-items-center'>
+                <h3 className='mb-0'>Secondi Piatti ({savedSecondi.length})</h3>
+                {savedSecondi.length > 0 && (
+                  <Button
+                    variant='danger'
+                    size='sm'
+                    onClick={() => handleClearCategory('secondi')}
+                  >
+                    Rimuovi tutti
+                  </Button>
+                )}
+              </Card.Header>
+              <Card.Body>
+                {savedSecondi.length > 0 ? (
+                  <ListGroup style={{ maxHeight: '300px', overflowY: 'auto' }}>
+                    {savedSecondi.map((dish, index) => (
+                      <ListGroup.Item
+                        key={index}
+                        className='d-flex justify-content-between align-items-center'
+                      >
+                        {dish}
+                        <Button
+                          variant='danger'
+                          size='sm'
+                          onClick={() => handleRemoveDish('secondi', dish)}
+                        >
+                          &times;
+                        </Button>
+                      </ListGroup.Item>
+                    ))}
+                  </ListGroup>
+                ) : (
+                  <p className='text-muted text-center py-3'>
+                    Nessun suggerimento salvato
+                  </p>
+                )}
+              </Card.Body>
+            </Card>
+          </Col>
+
+          <Col md={4} className='mb-4'>
+            <Card className='h-100'>
+              <Card.Header className='bg-light d-flex justify-content-between align-items-center'>
+                <h3 className='mb-0'>Contorni ({savedContorni.length})</h3>
+                {savedContorni.length > 0 && (
+                  <Button
+                    variant='danger'
+                    size='sm'
+                    onClick={() => handleClearCategory('contorni')}
+                  >
+                    Rimuovi tutti
+                  </Button>
+                )}
+              </Card.Header>
+              <Card.Body>
+                {savedContorni.length > 0 ? (
+                  <ListGroup style={{ maxHeight: '300px', overflowY: 'auto' }}>
+                    {savedContorni.map((dish, index) => (
+                      <ListGroup.Item
+                        key={index}
+                        className='d-flex justify-content-between align-items-center'
+                      >
+                        {dish}
+                        <Button
+                          variant='danger'
+                          size='sm'
+                          onClick={() => handleRemoveDish('contorni', dish)}
+                        >
+                          &times;
+                        </Button>
+                      </ListGroup.Item>
+                    ))}
+                  </ListGroup>
+                ) : (
+                  <p className='text-muted text-center py-3'>
+                    Nessun suggerimento salvato
+                  </p>
+                )}
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+
+        <div className='d-flex flex-column flex-md-row justify-content-between gap-2 mt-4'>
+          {(savedPrimi.length > 0 ||
+            savedSecondi.length > 0 ||
+            savedContorni.length > 0) && (
+            <Button variant='danger' size='lg' onClick={handleClearAll}>
+              Rimuovi tutti i suggerimenti
+            </Button>
+          )}
+          <Button variant='secondary' size='lg' onClick={handleBack}>
+            Torna al menu
+          </Button>
+        </div>
+      </Card.Body>
+    </Card>
   )
 }
 

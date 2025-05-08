@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Card, Button, Row, Col, ListGroup } from 'react-bootstrap'
 
 const Summary = () => {
   const navigate = useNavigate()
@@ -28,73 +29,105 @@ const Summary = () => {
 
   if (!menuData || Object.keys(menuData).length === 0) {
     return (
-      <div className='summary-container'>
-        <h1>Menu non disponibile</h1>
-        <p>
-          Non sono stati trovati dati del menu. Torna alla pagina di
-          composizione.
-        </p>
-        <button onClick={handleBack} className='back-btn'>
-          Torna alla composizione
-        </button>
-      </div>
+      <Card className='shadow'>
+        <Card.Header className='bg-danger text-white'>
+          <h2 className='mb-0'>Menu non disponibile</h2>
+        </Card.Header>
+        <Card.Body className='text-center p-5'>
+          <p className='lead mb-4'>
+            Non sono stati trovati dati del menu. Torna alla pagina di
+            composizione.
+          </p>
+          <Button variant='primary' size='lg' onClick={handleBack}>
+            Torna alla composizione
+          </Button>
+        </Card.Body>
+      </Card>
     )
   }
 
   return (
-    <div className='summary-container'>
-      <h1>Riepilogo Menu del {formattedDate}</h1>
+    <Card className='shadow'>
+      <Card.Header className='bg-primary text-white'>
+        <h2 className='mb-0'>Riepilogo Menu del {formattedDate}</h2>
+      </Card.Header>
 
-      <div className='menu-summary'>
-        <div className='menu-section'>
-          <h2>Primi Piatti</h2>
-          {menuData.primi && menuData.primi.length > 0 ? (
-            <ul>
-              {menuData.primi.map((dish, index) => (
-                <li key={index}>{dish}</li>
-              ))}
-            </ul>
-          ) : (
-            <p>Nessun primo piatto inserito</p>
-          )}
+      <Card.Body>
+        <Row>
+          <Col md={4} className='mb-4'>
+            <Card className='h-100'>
+              <Card.Header className='bg-light'>
+                <h3 className='mb-0'>Primi Piatti</h3>
+              </Card.Header>
+              <Card.Body>
+                {menuData.primi && menuData.primi.length > 0 ? (
+                  <ListGroup>
+                    {menuData.primi.map((dish, index) => (
+                      <ListGroup.Item key={index}>{dish}</ListGroup.Item>
+                    ))}
+                  </ListGroup>
+                ) : (
+                  <p className='text-muted text-center py-3'>
+                    Nessun primo piatto inserito
+                  </p>
+                )}
+              </Card.Body>
+            </Card>
+          </Col>
+
+          <Col md={4} className='mb-4'>
+            <Card className='h-100'>
+              <Card.Header className='bg-light'>
+                <h3 className='mb-0'>Secondi Piatti</h3>
+              </Card.Header>
+              <Card.Body>
+                {menuData.secondi && menuData.secondi.length > 0 ? (
+                  <ListGroup>
+                    {menuData.secondi.map((dish, index) => (
+                      <ListGroup.Item key={index}>{dish}</ListGroup.Item>
+                    ))}
+                  </ListGroup>
+                ) : (
+                  <p className='text-muted text-center py-3'>
+                    Nessun secondo piatto inserito
+                  </p>
+                )}
+              </Card.Body>
+            </Card>
+          </Col>
+
+          <Col md={4} className='mb-4'>
+            <Card className='h-100'>
+              <Card.Header className='bg-light'>
+                <h3 className='mb-0'>Contorni</h3>
+              </Card.Header>
+              <Card.Body>
+                {menuData.contorni && menuData.contorni.length > 0 ? (
+                  <ListGroup>
+                    {menuData.contorni.map((dish, index) => (
+                      <ListGroup.Item key={index}>{dish}</ListGroup.Item>
+                    ))}
+                  </ListGroup>
+                ) : (
+                  <p className='text-muted text-center py-3'>
+                    Nessun contorno inserito
+                  </p>
+                )}
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+
+        <div className='d-flex flex-column flex-md-row justify-content-between gap-2 mt-4'>
+          <Button variant='secondary' size='lg' onClick={handleBack}>
+            Modifica Menu
+          </Button>
+          <Button variant='primary' size='lg' onClick={handleSend}>
+            Invia Menu
+          </Button>
         </div>
-
-        <div className='menu-section'>
-          <h2>Secondi Piatti</h2>
-          {menuData.secondi && menuData.secondi.length > 0 ? (
-            <ul>
-              {menuData.secondi.map((dish, index) => (
-                <li key={index}>{dish}</li>
-              ))}
-            </ul>
-          ) : (
-            <p>Nessun secondo piatto inserito</p>
-          )}
-        </div>
-
-        <div className='menu-section'>
-          <h2>Contorni</h2>
-          {menuData.contorni && menuData.contorni.length > 0 ? (
-            <ul>
-              {menuData.contorni.map((dish, index) => (
-                <li key={index}>{dish}</li>
-              ))}
-            </ul>
-          ) : (
-            <p>Nessun contorno inserito</p>
-          )}
-        </div>
-      </div>
-
-      <div className='summary-actions'>
-        <button onClick={handleBack} className='back-btn'>
-          Modifica Menu
-        </button>
-        <button onClick={handleSend} className='send-btn'>
-          Invia Menu
-        </button>
-      </div>
-    </div>
+      </Card.Body>
+    </Card>
   )
 }
 
