@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Card, Button, Form, Alert } from 'react-bootstrap'
+import { Card, Button, Form, Alert, Col, Row } from 'react-bootstrap'
 import axios from 'axios'
 
 const SendMenu = () => {
@@ -12,6 +12,7 @@ const SendMenu = () => {
   const [sendEmail, setSendEmail] = useState(true)
   const [sending, setSending] = useState(false)
   const [result, setResult] = useState({ status: '', message: '' })
+  const URL_API_AZURE = import.meta.env.VITE_URL_API_AZURE || ''
 
   useEffect(() => {
     // Carica i dati del menu dal localStorage
@@ -19,42 +20,52 @@ const SendMenu = () => {
     setMenuData(storedMenu)
 
     if (storedMenu && storedMenu.date) {
-      // Formatta la data in formato italiano (GG/MM/AAAA)
+      // Formatta la data in formato italiano (GG/MM/AAAA)s
       const [year, month, day] = storedMenu.date.split('-')
-      const formattedDateStr = `${day}/${month}/${year}`
+      const formattedDateStr = `${day}.${month}.${year}`
       setFormattedDate(formattedDateStr)
 
-      // Crea il testo formattato del menu
-      let text = `MENU DEL GIORNO ${formattedDateStr}\n\n`
+      // Crea lo stile del messaggio
+      let text = '<style>\n'
+      text += 'h4 { color: #0963c3; }\n'
+      text += 'h5 { color: #FF0000; }\n'
+      text += 'p { padding: 0; margin: 0;}\n'
+      text += 'div { text-align: center; }\n'
+      text += '</style>\n\n'
 
-      text += 'PRIMI PIATTI:\n'
+      text += '<div>\n'
+      // Crea il testo formattato del menu
+      text += `<h4>MENU DEL GIORNO ${formattedDateStr}</h4>\n\n`
+
+      text += '<br /><h5>PRIMI PIATTI</h5>\n'
       if (storedMenu.primi && storedMenu.primi.length > 0) {
         storedMenu.primi.forEach((dish) => {
-          text += `- ${dish}\n`
+          text += `<p>${dish}</p>\n`
         })
       } else {
-        text += 'Nessun primo piatto disponibile oggi\n'
+        text += '<p>Nessun primo piatto disponibile oggi</p>\n'
       }
 
-      text += '\nSECONDI PIATTI:\n'
+      text += '\n<br /><h5>SECONDI PIATTI</h5>\n'
       if (storedMenu.secondi && storedMenu.secondi.length > 0) {
         storedMenu.secondi.forEach((dish) => {
-          text += `- ${dish}\n`
+          text += `<p>${dish}</p>\n`
         })
       } else {
-        text += 'Nessun secondo piatto disponibile oggi\n'
+        text += '<p>Nessun secondo piatto disponibile oggi</p>\n'
       }
 
-      text += '\nCONTORNI:\n'
+      text += '\n<br /><h5>CONTORNI</h5>\n'
       if (storedMenu.contorni && storedMenu.contorni.length > 0) {
         storedMenu.contorni.forEach((dish) => {
-          text += `- ${dish}\n`
+          text += `<p>${dish}</p>\n`
         })
       } else {
-        text += 'Nessun contorno disponibile oggi\n'
+        text += '<p>Nessun contorno disponibile oggi</p>\n'
       }
 
-      text += '\nBuon appetito!'
+      text += '\n<br /><h4>Buon appetito!</h4>\n'
+      text += '</div>\n'
       setFormattedText(text)
     }
   }, [])
@@ -64,36 +75,56 @@ const SendMenu = () => {
   }
 
   const handleSend = async () => {
+    if (!sendTeams && !sendEmail) {
+      setResult({
+        status: 'error',
+        message: 'Seleziona almeno una modalità di invio (Teams o Email).',
+      })
+      return
+    }
     setSending(true)
     setResult({ status: '', message: '' })
 
     try {
-      // Qui implementeresti la chiamata all'API Azure
-      // const response = await axios.post('URL_API_AZURE', {
-      //   menuText: formattedText,
-      //   sendTeams: sendTeams,
-      //   sendEmail: sendEmail,
-      //   date: menuData.date
-      // });
-
-      // Simula la risposta dell'API
-      await new Promise((resolve) => setTimeout(resolve, 1500))
-
-      setResult({
-        status: 'success',
-        message: `Menu inviato con successo ${sendEmail ? 'via email' : ''}${
-          sendEmail && sendTeams ? ' e ' : ''
-        }${sendTeams ? 'via Teams' : ''}.`,
+      const response = await axios.post(URL_API_AZURE, {
+        menuText: formattedText,
+        sendTeams: sendTeams,
+        sendEmail: sendEmail,
+        date: menuData.date,
       })
 
-      // Opzionale: rimuovi il menu corrente dal localStorage dopo l'invio
-      // localStorage.removeItem('currentMenu');
+      // Simula la risposta dell'API (rimuovi se non serve più)
+      // await new Promise((resolve) => setTimeout(resolve, 1500))
+
+      if (response.data && response.data.success) {
+        setResult({
+          status: 'success',
+          message:
+            response.data && response.data.message
+              ? response.data.message
+              : `Menu inviato con successo${sendEmail ? ' via email' : ''}${
+                  sendEmail && sendTeams ? ' e' : ''
+                }${sendTeams ? ' via Teams' : ''}.`,
+        })
+        // Rimuovi il menu corrente dal localStorage dopo l'invio
+        // localStorage.removeItem('currentMenu')
+      } else {
+        setResult({
+          status: 'error',
+          message:
+            response.data && response.data.message
+              ? response.data.message
+              : "Si è verificato un errore durante l'invio del menu. Riprova più tardi.",
+        })
+      }
     } catch (error) {
       console.error("Errore durante l'invio del menu:", error)
       setResult({
         status: 'error',
         message:
-          "Si è verificato un errore durante l'invio del menu. Riprova più tardi.",
+          error.response && error.response.data && error.response.data.message
+            ? error.response.data.message
+            : "Si è verificato un errore durante l'invio del menu. Riprova più tardi.",
       })
     } finally {
       setSending(false)
@@ -136,12 +167,7 @@ const SendMenu = () => {
             <h3 className='mb-0'>Anteprima del messaggio</h3>
           </Card.Header>
           <Card.Body>
-            <pre
-              className='bg-light p-3 border rounded'
-              style={{ whiteSpace: 'pre-wrap' }}
-            >
-              {formattedText}
-            </pre>
+            <div dangerouslySetInnerHTML={{ __html: formattedText }} />
           </Card.Body>
         </Card>
 
@@ -150,22 +176,31 @@ const SendMenu = () => {
             <h3 className='mb-0'>Modalità di invio</h3>
           </Card.Header>
           <Card.Body>
-            <Form.Check
-              className='mb-2'
-              type='checkbox'
-              id='teams'
-              label='Invia tramite Teams'
-              checked={sendTeams}
-              onChange={() => setSendTeams(!sendTeams)}
-            />
+            <Row
+              xs={1}
+              md={2}
+              lg={4}
+              className='align-items-center justify-content-center'
+            >
+              <Col className='text-center'>
+                <Form.Check
+                  className='mb-2'
+                  type='checkbox'
+                  id='teams'
+                  label='Invia tramite Teams'
+                  checked={sendTeams}
+                  onChange={() => setSendTeams(!sendTeams)}
+                />
 
-            <Form.Check
-              type='checkbox'
-              id='email'
-              label='Invia tramite Email'
-              checked={sendEmail}
-              onChange={() => setSendEmail(!sendEmail)}
-            />
+                <Form.Check
+                  type='checkbox'
+                  id='email'
+                  label='Invia tramite Email'
+                  checked={sendEmail}
+                  onChange={() => setSendEmail(!sendEmail)}
+                />
+              </Col>
+            </Row>
           </Card.Body>
         </Card>
 

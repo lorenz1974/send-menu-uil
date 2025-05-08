@@ -100,7 +100,7 @@ const MenuForm = () => {
   }
 
   return (
-    <Card className='shadow'>
+    <Card className='shadow p-0'>
       <Card.Header className='bg-primary text-white'>
         <h2 className='mb-0'>Composizione Menu del Giorno</h2>
       </Card.Header>

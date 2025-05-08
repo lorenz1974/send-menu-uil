@@ -45,7 +45,7 @@ const DishCategory = ({ title, dishes, setDishes, savedDishes }) => {
   }
 
   return (
-    <Card className='h-100'>
+    <Card className='h-100 p-1 shadow'>
       <Card.Header className='bg-light'>
         <h3 className='mb-0'>{title}</h3>
       </Card.Header>
@@ -60,9 +60,9 @@ const DishCategory = ({ title, dishes, setDishes, savedDishes }) => {
                 setShowSuggestions(true)
               }}
               placeholder={`Aggiungi ${title.toLowerCase()}`}
-              onKeyPress={(e) => e.key === 'Enter' && handleAddDish(e)}
+              onKeyDown={(e) => e.key === 'Enter' && handleAddDish(e)}
             />
-            <Button variant='primary' onClick={handleAddDish}>
+            <Button size='sm' variant='primary' onClick={handleAddDish}>
               Aggiungi
             </Button>
           </div>
@@ -96,7 +96,7 @@ const DishCategory = ({ title, dishes, setDishes, savedDishes }) => {
                 >
                   {dish}
                   <Button
-                    variant='danger'
+                    variant='warning'
                     size='sm'
                     onClick={() => handleRemoveDish(dish)}
                   >

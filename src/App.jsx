@@ -7,8 +7,11 @@ import SendMenu from './components/SendMenu'
 import ManageSuggestions from './components/ManageSuggestions'
 
 function App() {
+  // Utilizzo lo stesso valore di base configurato in vite.config.js
+  const basename = '/invio-menu-20250509/'
+
   return (
-    <Router>
+    <Router basename={basename}>
       <div className='d-flex flex-column min-vh-100'>
         <Navbar bg='dark' variant='dark' className='py-3 mb-4'>
           <Container>
@@ -18,7 +21,7 @@ function App() {
           </Container>
         </Navbar>
 
-        <Container className='flex-grow-1 mb-4'>
+        <Container fluid className='flex-grow-1 mb-4 w-100 p-0'>
           <Routes>
             <Route path='/' element={<MenuForm />} />
             <Route path='/summary' element={<Summary />} />
