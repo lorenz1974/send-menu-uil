@@ -30,7 +30,7 @@ const SendMenu = () => {
       text += 'h4 { color: #0963c3; }\n'
       text += 'h5 { color: #FF0000; }\n'
       text += 'p { padding: 0; margin: 0;}\n'
-      text += 'div { text-align: center; }\n'
+      // text += 'div { text-align: center; }\n'
       text += '</style>\n\n'
 
       text += '<div>\n'
