@@ -1,0 +1,21 @@
+{
+    "primi": [
+        "Spaghetti aglio olio",
+        "Insalata di farro",
+        "Pasta al sugo di mare"
+    ],
+    "secondi": [
+        "Burger di salmone",
+        "Melanzane alla parmigiana",
+        "Stracchino"
+    ],
+    "contorni": [
+        "Broccoli all agro",
+        "Verdure lesse al prezzemolo",
+        "Insalata di patate e fagiolini",
+        "Insalata libanese",
+        "Verdure grigliate",
+        "Verdura arrosto",
+        "Patate arrosto"
+    ]
+}

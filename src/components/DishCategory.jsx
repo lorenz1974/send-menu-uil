@@ -26,7 +26,8 @@ const DishCategory = ({ title, dishes, setDishes, savedDishes }) => {
     }
 
     if (newDish.trim() !== '' && !dishes.includes(newDish)) {
-      setDishes([...dishes, newDish])
+      // Aggiungi il nuovo piatto e ordina alfabeticamente
+      setDishes([...dishes, newDish].sort())
       setNewDish('')
       setShowSuggestions(false)
     }
@@ -38,7 +39,8 @@ const DishCategory = ({ title, dishes, setDishes, savedDishes }) => {
 
   const handleSelectSuggestion = (suggestion) => {
     if (!dishes.includes(suggestion)) {
-      setDishes([...dishes, suggestion])
+      // Aggiungi il suggerimento selezionato e ordina alfabeticamente
+      setDishes([...dishes, suggestion].sort())
     }
     setNewDish('')
     setShowSuggestions(false)

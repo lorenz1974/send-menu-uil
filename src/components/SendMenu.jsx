@@ -37,7 +37,7 @@ const SendMenu = () => {
       // Crea il testo formattato del menu
       text += `<h4>MENU DEL GIORNO ${formattedDateStr}</h4>\n\n`
 
-      text += '<br /><h5>PRIMI PIATTI</h5>\n'
+      text += '<br /><h5><b>PRIMI PIATTI</b></h5>\n'
       if (storedMenu.primi && storedMenu.primi.length > 0) {
         storedMenu.primi.forEach((dish) => {
           text += `<p>${dish}</p>\n`
@@ -46,7 +46,7 @@ const SendMenu = () => {
         text += '<p>Nessun primo piatto disponibile oggi</p>\n'
       }
 
-      text += '\n<br /><h5>SECONDI PIATTI</h5>\n'
+      text += '\n<br /><h5><b>SECONDI PIATTI</b></h5>\n'
       if (storedMenu.secondi && storedMenu.secondi.length > 0) {
         storedMenu.secondi.forEach((dish) => {
           text += `<p>${dish}</p>\n`
@@ -55,7 +55,7 @@ const SendMenu = () => {
         text += '<p>Nessun secondo piatto disponibile oggi</p>\n'
       }
 
-      text += '\n<br /><h5>CONTORNI</h5>\n'
+      text += '\n<br /><h5><b>CONTORNI</b></h5>\n'
       if (storedMenu.contorni && storedMenu.contorni.length > 0) {
         storedMenu.contorni.forEach((dish) => {
           text += `<p>${dish}</p>\n`
@@ -105,6 +105,10 @@ const SendMenu = () => {
               : `Menu inviato con successo${sendEmail ? ' via email' : ''}${
                   sendEmail && sendTeams ? ' e' : ''
                 }${sendTeams ? ' via Teams' : ''}.`,
+          nutritionalAdvice:
+            response.data && response.data.nutritionalAdvice
+              ? response.data.nutritionalAdvice
+              : 'Nessun consiglio nutrizionale disponibile.',
         })
         // Rimuovi il menu corrente dal localStorage dopo l'invio
         // localStorage.removeItem('currentMenu')
@@ -210,6 +214,13 @@ const SendMenu = () => {
             className='mb-4'
           >
             {result.message}
+          </Alert>
+        )}
+
+        {result.nutritionalAdvice && (
+          <Alert variant={'warning'} className='mb-4'>
+            <h5 className='mb-1'>Consigli nutrizionali</h5>
+            <p className='mb-0'>{result.nutritionalAdvice}</p>
           </Alert>
         )}
 

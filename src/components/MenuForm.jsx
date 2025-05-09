@@ -29,9 +29,13 @@ const MenuForm = () => {
 
   // Carica i piatti salvati dal localStorage
   useEffect(() => {
-    const storedPrimi = JSON.parse(localStorage.getItem('primi') || '[]')
-    const storedSecondi = JSON.parse(localStorage.getItem('secondi') || '[]')
-    const storedContorni = JSON.parse(localStorage.getItem('contorni') || '[]')
+    const storedPrimi = JSON.parse(localStorage.getItem('primi') || '[]').sort()
+    const storedSecondi = JSON.parse(
+      localStorage.getItem('secondi') || '[]'
+    ).sort()
+    const storedContorni = JSON.parse(
+      localStorage.getItem('contorni') || '[]'
+    ).sort()
 
     setSavedPrimi(storedPrimi)
     setSavedSecondi(storedSecondi)
@@ -40,9 +44,9 @@ const MenuForm = () => {
     // Carica il menu corrente (se esiste)
     const currentMenu = JSON.parse(localStorage.getItem('currentMenu') || '{}')
     if (currentMenu && Object.keys(currentMenu).length > 0) {
-      setPrimi(currentMenu.primi || [])
-      setSecondi(currentMenu.secondi || [])
-      setContorni(currentMenu.contorni || [])
+      setPrimi(currentMenu.primi ? [...currentMenu.primi].sort() : [])
+      setSecondi(currentMenu.secondi ? [...currentMenu.secondi].sort() : [])
+      setContorni(currentMenu.contorni ? [...currentMenu.contorni].sort() : [])
 
       // Se c'è una data salvata, usala
       if (currentMenu.date) {
@@ -61,21 +65,21 @@ const MenuForm = () => {
 
   // Funzione per salvare il menu nel localStorage
   const saveMenu = () => {
-    // Salva i nuovi piatti nel localStorage
-    const updatedPrimi = [...new Set([...savedPrimi, ...primi])]
-    const updatedSecondi = [...new Set([...savedSecondi, ...secondi])]
-    const updatedContorni = [...new Set([...savedContorni, ...contorni])]
+    // Salva i nuovi piatti nel localStorage, eliminando duplicati e ordinando alfabeticamente
+    const updatedPrimi = [...new Set([...savedPrimi, ...primi])].sort()
+    const updatedSecondi = [...new Set([...savedSecondi, ...secondi])].sort()
+    const updatedContorni = [...new Set([...savedContorni, ...contorni])].sort()
 
     localStorage.setItem('primi', JSON.stringify(updatedPrimi))
     localStorage.setItem('secondi', JSON.stringify(updatedSecondi))
     localStorage.setItem('contorni', JSON.stringify(updatedContorni))
 
-    // Salva il menu corrente per il riepilogo
+    // Salva il menu corrente per il riepilogo (ordinato alfabeticamente)
     const menuData = {
       date: menuDate,
-      primi,
-      secondi,
-      contorni,
+      primi: [...primi].sort(),
+      secondi: [...secondi].sort(),
+      contorni: [...contorni].sort(),
     }
 
     localStorage.setItem('currentMenu', JSON.stringify(menuData))
