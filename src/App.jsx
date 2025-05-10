@@ -1,13 +1,13 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Container, Navbar } from 'react-bootstrap'
-import './App.css'
-import MenuForm from './components/MenuForm'
-import Summary from './components/Summary'
-import SendMenu from './components/SendMenu'
-import ManageSuggestions from './components/ManageSuggestions'
+// import './App.css'
+import MenuForm from '@components/MenuForm'
+import Summary from '@components/Summary'
+import SendMenu from '@components/SendMenu'
+import ManageSuggestions from '@components/ManageSuggestions'
 
 function App() {
-  // Utilizzo lo stesso valore di base configurato in vite.config.js
+  // Ripristinato il basename per corrispondere alla configurazione in vite.config.js
   const basename = '/invio-menu-20250509/'
 
   return (

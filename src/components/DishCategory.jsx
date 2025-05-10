@@ -1,23 +1,23 @@
 import React, { useState, useEffect } from 'react'
 import { Card, Form, Button, ListGroup } from 'react-bootstrap'
+import useSuggestions from '@hooks/useSuggestions'
 
 const DishCategory = ({ title, dishes, setDishes, savedDishes }) => {
   const [newDish, setNewDish] = useState('')
   const [suggestions, setSuggestions] = useState([])
   const [showSuggestions, setShowSuggestions] = useState(false)
+  const { filterSuggestions } = useSuggestions()
 
   useEffect(() => {
-    if (newDish.trim() !== '') {
-      const filteredSuggestions = savedDishes.filter(
-        (dish) =>
-          dish.toLowerCase().includes(newDish.toLowerCase()) &&
-          !dishes.includes(dish)
-      )
-      setSuggestions(filteredSuggestions)
-    } else {
-      setSuggestions([])
-    }
-  }, [newDish, savedDishes, dishes])
+    // Utilizza l'hook personalizzato per filtrare i suggerimenti
+    const filteredSuggestions = filterSuggestions(
+      title.toLowerCase(),
+      newDish,
+      dishes
+    )
+    setSuggestions(filteredSuggestions)
+    // Rimuoviamo filterSuggestions dalle dipendenze per evitare il ciclo infinito
+  }, [newDish, savedDishes, dishes, title])
 
   const handleAddDish = (e) => {
     // Previene l'invio del form quando si preme il bottone Aggiungi

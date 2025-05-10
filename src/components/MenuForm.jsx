@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import {
   Card,
@@ -9,83 +9,28 @@ import {
   InputGroup,
   Alert,
 } from 'react-bootstrap'
-import DishCategory from './DishCategory'
+import DishCategory from '@components/DishCategory'
+import useMenu from '@hooks/useMenu'
+import useSuggestions from '@hooks/useSuggestions'
 
 const MenuForm = () => {
   const navigate = useNavigate()
+  const {
+    primi,
+    setPrimi,
+    secondi,
+    setSecondi,
+    contorni,
+    setContorni,
+    menuDate,
+    setMenuDate,
+    saveMenu,
+    resetMenu,
+  } = useMenu()
 
-  // Stato per i piatti correnti
-  const [primi, setPrimi] = useState([])
-  const [secondi, setSecondi] = useState([])
-  const [contorni, setContorni] = useState([])
-
-  // Stato per i piatti salvati nel localStorage
-  const [savedPrimi, setSavedPrimi] = useState([])
-  const [savedSecondi, setSavedSecondi] = useState([])
-  const [savedContorni, setSavedContorni] = useState([])
-
-  const [menuDate, setMenuDate] = useState('')
+  const { savedPrimi, savedSecondi, savedContorni, message, showMessage } =
+    useSuggestions()
   const [confirmMessage, setConfirmMessage] = useState('')
-
-  // Carica i piatti salvati dal localStorage
-  useEffect(() => {
-    const storedPrimi = JSON.parse(localStorage.getItem('primi') || '[]').sort()
-    const storedSecondi = JSON.parse(
-      localStorage.getItem('secondi') || '[]'
-    ).sort()
-    const storedContorni = JSON.parse(
-      localStorage.getItem('contorni') || '[]'
-    ).sort()
-
-    setSavedPrimi(storedPrimi)
-    setSavedSecondi(storedSecondi)
-    setSavedContorni(storedContorni)
-
-    // Carica il menu corrente (se esiste)
-    const currentMenu = JSON.parse(localStorage.getItem('currentMenu') || '{}')
-    if (currentMenu && Object.keys(currentMenu).length > 0) {
-      setPrimi(currentMenu.primi ? [...currentMenu.primi].sort() : [])
-      setSecondi(currentMenu.secondi ? [...currentMenu.secondi].sort() : [])
-      setContorni(currentMenu.contorni ? [...currentMenu.contorni].sort() : [])
-
-      // Se c'è una data salvata, usala
-      if (currentMenu.date) {
-        setMenuDate(currentMenu.date)
-      } else {
-        // Altrimenti imposta la data di oggi come default
-        const today = new Date().toISOString().split('T')[0]
-        setMenuDate(today)
-      }
-    } else {
-      // Imposta la data di oggi come default se non c'è un menu salvato
-      const today = new Date().toISOString().split('T')[0]
-      setMenuDate(today)
-    }
-  }, [])
-
-  // Funzione per salvare il menu nel localStorage
-  const saveMenu = () => {
-    // Salva i nuovi piatti nel localStorage, eliminando duplicati e ordinando alfabeticamente
-    const updatedPrimi = [...new Set([...savedPrimi, ...primi])].sort()
-    const updatedSecondi = [...new Set([...savedSecondi, ...secondi])].sort()
-    const updatedContorni = [...new Set([...savedContorni, ...contorni])].sort()
-
-    localStorage.setItem('primi', JSON.stringify(updatedPrimi))
-    localStorage.setItem('secondi', JSON.stringify(updatedSecondi))
-    localStorage.setItem('contorni', JSON.stringify(updatedContorni))
-
-    // Salva il menu corrente per il riepilogo (ordinato alfabeticamente)
-    const menuData = {
-      date: menuDate,
-      primi: [...primi].sort(),
-      secondi: [...secondi].sort(),
-      contorni: [...contorni].sort(),
-    }
-
-    localStorage.setItem('currentMenu', JSON.stringify(menuData))
-
-    return menuData
-  }
 
   // Gestisce il click su "Anteprima e Invio" - salva e naviga alla pagina di riepilogo
   const handleSubmit = (e) => {
@@ -96,10 +41,7 @@ const MenuForm = () => {
 
   // Aggiunge un reset del form
   const handleReset = () => {
-    setPrimi([])
-    setSecondi([])
-    setContorni([])
-    localStorage.removeItem('currentMenu')
+    resetMenu()
     setConfirmMessage('')
   }
 
@@ -161,6 +103,12 @@ const MenuForm = () => {
           {confirmMessage && (
             <Alert variant='success' className='text-center mb-4'>
               {confirmMessage}
+            </Alert>
+          )}
+
+          {message && (
+            <Alert variant='success' className='text-center mb-4'>
+              {message}
             </Alert>
           )}
 
