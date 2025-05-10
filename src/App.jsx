@@ -5,10 +5,21 @@ import MenuForm from '@components/MenuForm'
 import Summary from '@components/Summary'
 import SendMenu from '@components/SendMenu'
 import ManageSuggestions from '@components/ManageSuggestions'
+import MenuForm from './components/MenuForm'
+import Summary from './components/Summary'
+import SendMenu from './components/SendMenu'
+import ManageSuggestions from './components/ManageSuggestions'
+import packageJson from '../package.json'
 
 function App() {
   // Ripristinato il basename per corrispondere alla configurazione in vite.config.js
   const basename = '/invio-menu-20250509/'
+  // [DesignPattern: Configuration] Using environment variables for deployment configuration
+  // Get basename from environment variables to avoid hardcoding in source code
+  const basename = import.meta.env.VITE_APP_BASENAME || '/'
+
+  // Get application version from package.json
+  const appVersion = packageJson.version
 
   return (
     <Router basename={basename}>
@@ -34,7 +45,7 @@ function App() {
           <Container>
             <Navbar.Text className='w-100'>
               &copy; {new Date().getFullYear()} - Applicazione Gestione Menu
-              Mensa
+              Mensa - v{appVersion}
             </Navbar.Text>
           </Container>
         </Navbar>
