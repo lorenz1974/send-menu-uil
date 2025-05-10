@@ -1,23 +1,43 @@
+/**
+ * useSuggestions - Custom hook for dish suggestions management
+ *
+ * [DesignPattern: Repository] Implements the Repository pattern for managing
+ * dish suggestions with persistent storage operations.
+ *
+ * [DesignPattern: Observer] Uses React's useState and useEffect to observe
+ * and react to changes in suggestion data.
+ */
+
+// #region Imports
 import { useState, useEffect } from 'react'
 import menuSuggestions from '../assets/data/menu-suggestions.json'
+// #endregion
 
 /**
- * Hook per la gestione dei suggerimenti dei piatti
- * @returns {Object} Funzioni e stati per gestire i suggerimenti
+ * Custom hook for managing dish suggestions
+ * @returns {Object} Functions and state variables for managing suggestions
  */
 const useSuggestions = () => {
+  // #region State Management
   const [savedPrimi, setSavedPrimi] = useState([])
   const [savedSecondi, setSavedSecondi] = useState([])
   const [savedContorni, setSavedContorni] = useState([])
   const [message, setMessage] = useState('')
   const [hasSavedDishes, setHasSavedDishes] = useState(false)
 
-  // Carica i suggerimenti al primo render
+  // Load suggestions on first render
   useEffect(() => {
     loadSavedDishes()
   }, [])
+  // #endregion
 
-  // Carica i piatti salvati dal localStorage
+  // #region Data Access Methods
+  /**
+   * Loads saved dishes from localStorage
+   *
+   * [DesignPattern: Repository] Implements data retrieval from the storage layer
+   * @returns {Object} Object containing arrays of stored dishes by category
+   */
   const loadSavedDishes = () => {
     const storedPrimi = JSON.parse(localStorage.getItem('primi') || '[]').sort()
     const storedSecondi = JSON.parse(
@@ -31,7 +51,7 @@ const useSuggestions = () => {
     setSavedSecondi(storedSecondi)
     setSavedContorni(storedContorni)
 
-    // Controlla se ci sono piatti salvati
+    // Check if there are any saved dishes
     setHasSavedDishes(
       storedPrimi.length > 0 ||
         storedSecondi.length > 0 ||
@@ -45,9 +65,14 @@ const useSuggestions = () => {
     }
   }
 
-  // Carica i suggerimenti predefiniti dal file JSON
+  /**
+   * Loads default suggestions from JSON file
+   *
+   * [DesignPattern: Factory] Acts as a factory for creating initial suggestion data
+   * by merging default suggestions with existing ones
+   */
   const loadDefaultSuggestions = () => {
-    // Unione dei suggerimenti preimpostati con quelli già esistenti nel localStorage
+    // Merge predefined suggestions with existing ones in localStorage
     const updatedPrimi = [
       ...new Set([...savedPrimi, ...menuSuggestions.primi]),
     ].sort()
@@ -58,7 +83,7 @@ const useSuggestions = () => {
       ...new Set([...savedContorni, ...menuSuggestions.contorni]),
     ].sort()
 
-    // Aggiorna lo stato e il localStorage
+    // Update state and localStorage
     setSavedPrimi(updatedPrimi)
     setSavedSecondi(updatedSecondi)
     setSavedContorni(updatedContorni)
@@ -67,14 +92,21 @@ const useSuggestions = () => {
     localStorage.setItem('secondi', JSON.stringify(updatedSecondi))
     localStorage.setItem('contorni', JSON.stringify(updatedContorni))
 
-    // Aggiorna il flag
+    // Update flag
     setHasSavedDishes(true)
 
-    // Mostra messaggio di conferma
+    // Show confirmation message
     showMessage('Suggerimenti predefiniti caricati correttamente')
   }
 
-  // Mostra un messaggio temporaneo
+  /**
+   * Shows a temporary message
+   *
+   * [DesignPattern: Command] Implements a command to display and auto-dismiss notifications
+   *
+   * @param {string} msg - Message to display
+   * @param {number} duration - Duration in milliseconds
+   */
   const showMessage = (msg, duration = 3000) => {
     setMessage(msg)
     setTimeout(() => {
@@ -82,12 +114,20 @@ const useSuggestions = () => {
     }, duration)
   }
 
-  // Rimuove un piatto dai suggerimenti
+  // #region Suggestion Management Methods
+  /**
+   * Removes a dish from suggestions
+   *
+   * [DesignPattern: Command] Implements a command pattern for dish removal operation
+   *
+   * @param {string} category - Category of the dish to remove
+   * @param {string} dishToRemove - Name of the dish to remove
+   */
   const removeDish = (category, dishToRemove) => {
     let updatedList = []
     let storageKey = ''
 
-    // Identifica la categoria e prepara la lista aggiornata
+    // Identify category and prepare updated list
     if (category === 'primi') {
       updatedList = savedPrimi.filter((dish) => dish !== dishToRemove)
       setSavedPrimi(updatedList)
@@ -102,14 +142,20 @@ const useSuggestions = () => {
       storageKey = 'contorni'
     }
 
-    // Aggiorna il localStorage
+    // Update localStorage
     localStorage.setItem(storageKey, JSON.stringify(updatedList))
 
-    // Mostra messaggio di conferma
+    // Show confirmation message
     showMessage(`${dishToRemove} rimosso dai suggerimenti`)
   }
 
-  // Pulisce tutti i suggerimenti di una categoria
+  /**
+   * Clears all suggestions in a category
+   *
+   * [DesignPattern: Command] Implements a command pattern for category clearing operation
+   *
+   * @param {string} category - Category to clear
+   */
   const clearCategory = (category) => {
     if (category === 'primi') {
       setSavedPrimi([])
@@ -122,11 +168,15 @@ const useSuggestions = () => {
       localStorage.setItem('contorni', JSON.stringify([]))
     }
 
-    // Mostra messaggio di conferma
+    // Show confirmation message
     showMessage(`Tutti i ${category} sono stati rimossi dai suggerimenti`)
   }
 
-  // Pulisce tutti i suggerimenti
+  /**
+   * Clears all suggestions across all categories
+   *
+   * [DesignPattern: Command] Implements a command pattern for full reset operation
+   */
   const clearAllSuggestions = () => {
     setSavedPrimi([])
     setSavedSecondi([])
@@ -136,14 +186,23 @@ const useSuggestions = () => {
     localStorage.setItem('secondi', JSON.stringify([]))
     localStorage.setItem('contorni', JSON.stringify([]))
 
-    // Aggiorna il flag
+    // Update flag
     setHasSavedDishes(false)
 
-    // Mostra messaggio di conferma
+    // Show confirmation message
     showMessage('Tutti i suggerimenti sono stati rimossi')
   }
 
-  // Filtra suggerimenti in base a input dell'utente
+  /**
+   * Filters suggestions based on user input
+   *
+   * [DesignPattern: Strategy] Implements different filtering strategies based on category
+   *
+   * @param {string} category - Category to filter
+   * @param {string} input - User input to filter by
+   * @param {Array} currentDishes - Current dishes to exclude from results
+   * @returns {Array} Filtered suggestions
+   */
   const filterSuggestions = (category, input, currentDishes) => {
     let suggestions = []
 
@@ -172,12 +231,19 @@ const useSuggestions = () => {
     return suggestions
   }
 
-  // Aggiungi piatti selezionati al menu corrente
+  /**
+   * Adds selected dishes to current menu
+   *
+   * [DesignPattern: Command] Implements a command pattern for menu update operation
+   *
+   * @param {Object} selectedDishes - Object with arrays of dishes to add by category
+   * @returns {Object} Updated menu data
+   */
   const addSelectedToMenu = (selectedDishes) => {
-    // Recupera il menu attuale da localStorage
+    // Retrieve current menu from localStorage
     const currentMenu = JSON.parse(localStorage.getItem('currentMenu') || '{}')
 
-    // Prendi i piatti già presenti o inizializza array vuoti
+    // Get existing dishes or initialize empty arrays
     const currentPrimi = currentMenu.primi || []
     const currentSecondi = currentMenu.secondi || []
     const currentContorni = currentMenu.contorni || []

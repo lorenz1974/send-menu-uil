@@ -1,22 +1,43 @@
+/**
+ * useMenu - Custom hook for menu state management
+ *
+ * [DesignPattern: Repository] This hook implements the Repository pattern by abstracting
+ * the data storage and retrieval operations for menu items, providing a clean API
+ * for menu manipulation while handling the localStorage persistence.
+ *
+ * [DesignPattern: Observer] Uses React's useState and useEffect to observe and
+ * react to changes in menu data.
+ */
+
+// #region Imports
 import { useState, useEffect } from 'react'
+// #endregion
 
 /**
- * Hook per la gestione del menu corrente
- * @returns {Object} Funzioni e stati per gestire il menu
+ * Custom hook for managing the current menu state and operations
+ * @returns {Object} Functions and state variables for menu management
  */
 const useMenu = () => {
-  // Stato per i piatti correnti
+  // #region State Management
+  // State for current dishes in each category
   const [primi, setPrimi] = useState([])
   const [secondi, setSecondi] = useState([])
   const [contorni, setContorni] = useState([])
   const [menuDate, setMenuDate] = useState('')
 
-  // Carica il menu dal localStorage all'avvio
+  // Load menu from localStorage on component mount
   useEffect(() => {
     loadMenu()
   }, [])
+  // #endregion
 
-  // Carica il menu corrente dal localStorage
+  // #region Data Access Methods
+  /**
+   * Loads the current menu from localStorage
+   *
+   * [DesignPattern: Repository] Implements data retrieval from the storage layer
+   * @returns {Object} The loaded menu data
+   */
   const loadMenu = () => {
     const currentMenu = JSON.parse(localStorage.getItem('currentMenu') || '{}')
 
@@ -25,16 +46,16 @@ const useMenu = () => {
       setSecondi(currentMenu.secondi ? [...currentMenu.secondi].sort() : [])
       setContorni(currentMenu.contorni ? [...currentMenu.contorni].sort() : [])
 
-      // Se c'è una data salvata, usala
+      // Use saved date if available
       if (currentMenu.date) {
         setMenuDate(currentMenu.date)
       } else {
-        // Altrimenti imposta la data di oggi come default
+        // Otherwise set today's date as default
         const today = new Date().toISOString().split('T')[0]
         setMenuDate(today)
       }
     } else {
-      // Imposta la data di oggi come default se non c'è un menu salvato
+      // Set today's date as default if there's no saved menu
       const today = new Date().toISOString().split('T')[0]
       setMenuDate(today)
     }
@@ -42,14 +63,19 @@ const useMenu = () => {
     return currentMenu
   }
 
-  // Salva il menu nel localStorage
+  /**
+   * Saves the menu to localStorage and updates the suggestion lists
+   *
+   * [DesignPattern: Repository] Implements data persistence to the storage layer
+   * @returns {Object} The saved menu data
+   */
   const saveMenu = () => {
-    // Carica i suggerimenti salvati
+    // Load saved suggestions
     const savedPrimi = JSON.parse(localStorage.getItem('primi') || '[]')
     const savedSecondi = JSON.parse(localStorage.getItem('secondi') || '[]')
     const savedContorni = JSON.parse(localStorage.getItem('contorni') || '[]')
 
-    // Salva i nuovi piatti nel localStorage, eliminando duplicati e ordinando alfabeticamente
+    // Save new dishes to localStorage, removing duplicates and sorting alphabetically
     const updatedPrimi = [...new Set([...savedPrimi, ...primi])].sort()
     const updatedSecondi = [...new Set([...savedSecondi, ...secondi])].sort()
     const updatedContorni = [...new Set([...savedContorni, ...contorni])].sort()
@@ -58,7 +84,7 @@ const useMenu = () => {
     localStorage.setItem('secondi', JSON.stringify(updatedSecondi))
     localStorage.setItem('contorni', JSON.stringify(updatedContorni))
 
-    // Salva il menu corrente per il riepilogo (ordinato alfabeticamente)
+    // Save current menu for summary (sorted alphabetically)
     const menuData = {
       date: menuDate,
       primi: [...primi].sort(),
@@ -71,7 +97,13 @@ const useMenu = () => {
     return menuData
   }
 
-  // Aggiunge piatti al menu corrente
+  /**
+   * Adds dishes to the current menu by category
+   *
+   * [DesignPattern: Command] Implements a command pattern to add dishes to specific categories
+   * @param {string} category - The category to add dishes to (primi, secondi, contorni)
+   * @param {Array} dishes - Array of dish names to add
+   */
   const addToMenu = (category, dishes) => {
     if (category === 'primi') {
       setPrimi([...new Set([...primi, ...dishes])].sort())
@@ -82,7 +114,11 @@ const useMenu = () => {
     }
   }
 
-  // Reset del menu corrente
+  /**
+   * Resets the current menu to empty state and removes from localStorage
+   *
+   * [DesignPattern: Command] Implements a command pattern for menu reset operation
+   */
   const resetMenu = () => {
     setPrimi([])
     setSecondi([])
@@ -90,13 +126,19 @@ const useMenu = () => {
     localStorage.removeItem('currentMenu')
   }
 
-  // Formatta la data in formato italiano (GG/MM/AAAA)
+  /**
+   * Formats the date in Italian format (DD/MM/YYYY)
+   *
+   * @returns {string} The formatted date string
+   */
   const getFormattedDate = () => {
     if (!menuDate) return ''
     const [year, month, day] = menuDate.split('-')
     return `${day}/${month}/${year}`
   }
+  // #endregion
 
+  // #region Hook Return
   return {
     primi,
     setPrimi,
@@ -112,6 +154,7 @@ const useMenu = () => {
     addToMenu,
     getFormattedDate,
   }
+  // #endregion
 }
 
 export default useMenu
