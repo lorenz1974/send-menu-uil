@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/lorenz1974/send-menu-uil/compare/v1.1.1...v1.2.0) (2025-05-10)
+
+
+### Features
+
+* add password confirmation modal for menu sending ([ed07fd7](https://github.com/lorenz1974/send-menu-uil/commit/ed07fd799c6bbcfa82ee9eb5d5a8af09031bf44e))
+
+## 1.1.0 (2025-05-10)
+
 ## 1.1.0 (2025-05-10)
 
 ### Features
