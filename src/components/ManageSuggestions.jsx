@@ -272,7 +272,7 @@ const ManageSuggestions = () => {
                             onClick={(e) => e.stopPropagation()} // Evita doppio toggle quando si clicca direttamente sul checkbox
                             className='me-2'
                           />
-                          {dish}
+                          <div className='dish-item'>{dish}</div>
                         </div>
                         <div
                           className='btn btn-danger btn-sm'
@@ -328,7 +328,7 @@ const ManageSuggestions = () => {
                             onClick={(e) => e.stopPropagation()} // Evita doppio toggle quando si clicca direttamente sul checkbox
                             className='me-2'
                           />
-                          {dish}
+                          <div className='dish-item'>{dish}</div>
                         </div>
                         <div
                           className='btn btn-danger btn-sm'
@@ -384,7 +384,7 @@ const ManageSuggestions = () => {
                             onClick={(e) => e.stopPropagation()} // Evita doppio toggle quando si clicca direttamente sul checkbox
                             className='me-2'
                           />
-                          {dish}
+                          <div className='dish-item'>{dish}</div>
                         </div>
                         <div
                           className='btn btn-danger btn-sm'

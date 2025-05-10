@@ -88,15 +88,21 @@ const DishCategory = ({ title, dishes, setDishes, savedDishes }) => {
           )}
         </div>
 
-        <div className='dish-list mt-3'>
+        <div className='mt-3'>
           {dishes.length > 0 ? (
-            <ListGroup style={{ maxHeight: '250px', overflowY: 'auto' }}>
+            <ListGroup
+              style={{
+                maxHeight: '250px',
+                overflowY: 'auto',
+                alignItems: 'left',
+              }}
+            >
               {dishes.map((dish, index) => (
                 <ListGroup.Item
                   key={index}
                   className='d-flex justify-content-between align-items-center'
                 >
-                  {dish}
+                  <div className='dish-item'>{dish}</div>
                   <Button
                     variant='warning'
                     size='sm'

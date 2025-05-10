@@ -129,8 +129,8 @@ const MenuForm = () => {
         </Row>
 
         <Form onSubmit={handleSubmit}>
-          <Row>
-            <Col md={4} className='mb-4'>
+          <Row xs={1} md={2} lg={3}>
+            <Col className='mb-4'>
               <DishCategory
                 title='Primi'
                 dishes={primi}
@@ -139,7 +139,7 @@ const MenuForm = () => {
               />
             </Col>
 
-            <Col md={4} className='mb-4'>
+            <Col className='mb-4'>
               <DishCategory
                 title='Secondi'
                 dishes={secondi}
@@ -148,7 +148,7 @@ const MenuForm = () => {
               />
             </Col>
 
-            <Col md={4} className='mb-4'>
+            <Col className='mb-4'>
               <DishCategory
                 title='Contorni'
                 dishes={contorni}

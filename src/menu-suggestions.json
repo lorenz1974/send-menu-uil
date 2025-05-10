@@ -2,12 +2,34 @@
     "primi": [
         "Spaghetti aglio olio",
         "Insalata di farro",
-        "Pasta al sugo di mare"
+        "Pasta al sugo di mare",
+        "Rigatoni al ragù bianco",
+        "Cous cous con pollo e verdure",
+        "Pasta alla mediterranea",
+        "Spaghetti aglio olio e peperoncino",
+        "Pasta e ceci",
+        "Pizza in teglia",
+        "Mezze maniche alla gricia",
+        "Pinsa con pomodoro fresco e mozzarella",
+        "Riso saltato con verdure",
+        "Orecchiette con salmone e zucchine",
+        "Farfalle con pomodorini olive mozzarella e pesto",
+        "Moussaka"
     ],
     "secondi": [
         "Burger di salmone",
         "Melanzane alla parmigiana",
-        "Stracchino"
+        "Stracchino",
+        "Insalata di tacchino",
+        "Pizza con salsiccia e cime di rapa",
+        "Maiale saltato con carciofi e patate",
+        "Polpette in bianco",
+        "Burger di verdure",
+        "Braciole alla piastra",
+        "Uova all'occhio di bue",
+        "Scamerita alla griglia",
+        "Arrosto di manzo",
+        "Scaloppine di pollo al vino bianco"
     ],
     "contorni": [
         "Broccoli all agro",
@@ -16,6 +38,30 @@
         "Insalata libanese",
         "Verdure grigliate",
         "Verdura arrosto",
-        "Patate arrosto"
+        "Patate arrosto",
+        "Piselli stufati",
+        "Verdure marinate",
+        "Insalata di pomodori",
+        "Fagioli all'uccelletto",
+        "Cicoria ripassata",
+        "Verdure lesse",
+        "Ortolana",
+        "Cime di rapa saltate",
+        "Verdure stufate",
+        "Insalata mista",
+        "Insalata di zucchine con la feta",
+        "Panzanella",
+        "Insalata pantesca",
+        "Spinaci all'agro",
+        "Insalata greca",
+        "Humus",
+        "Caponata di melanzane",
+        "Zucchine a funghetto",
+        "Patate sabbiose",
+        "Verdure arrosto alla mediterranea",
+        "Insalata di melanzane con la feta",
+        "Insalata di verza",
+        "Patate al forno",
+        "Carote alla soya"
     ]
 }
