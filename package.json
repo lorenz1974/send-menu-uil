@@ -1,13 +1,17 @@
 {
   "name": "send-menu-uil",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.1.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "release:major": "standard-version --release-as major",
+    "release:minor": "standard-version --release-as minor",
+    "release:patch": "standard-version --release-as patch",
+    "flow:init": "git flow init"
   },
   "dependencies": {
     "axios": "^1.9.0",
@@ -26,6 +30,7 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
+    "standard-version": "^9.5.0",
     "vite": "^6.3.5"
   }
 }
