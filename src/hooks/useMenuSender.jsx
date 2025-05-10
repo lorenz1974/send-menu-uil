@@ -1,15 +1,21 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import axios from 'axios'
 
 /**
  * Hook per gestire l'invio del menu
  * @returns {Object} Funzioni e stati per gestire l'invio del menu
  */
+// [DesignPattern: Hook] Custom hook per la gestione dell'invio del menu
 const useMenuSender = () => {
   const [sendTeams, setSendTeams] = useState(true)
   const [sendEmail, setSendEmail] = useState(true)
   const [sending, setSending] = useState(false)
+  const [showPasswordModal, setShowPasswordModal] = useState(false)
+  const [passwordError, setPasswordError] = useState('')
   const [result, setResult] = useState({ status: '', message: '' })
+
+  // [DesignPattern: Ref] Utilizzo di useRef per memorizzare la funzione resolve della Promise
+  const resolvePasswordRef = useRef(null)
 
   const URL_API_AZURE = import.meta.env.VITE_URL_API_AZURE || ''
 
@@ -65,6 +71,36 @@ const useMenuSender = () => {
     return text
   }
 
+  // Richiede conferma tramite password
+  const requestPasswordConfirmation = () => {
+    setShowPasswordModal(true)
+    setPasswordError('')
+    return new Promise((resolve) => {
+      // Questa promise viene risolta dal metodo handlePasswordConfirm
+      resolvePasswordRef.current = resolve
+    })
+  }
+
+  // Gestisce la conferma della password
+  const handlePasswordConfirm = (password) => {
+    // Risolve la promise con la password
+    if (resolvePasswordRef.current) {
+      resolvePasswordRef.current(password)
+      resolvePasswordRef.current = null
+    }
+    setShowPasswordModal(false)
+  }
+
+  // Gestisce la chiusura del modale senza conferma
+  const handleClosePasswordModal = () => {
+    // Risolve la promise con null (indicando cancellazione)
+    if (resolvePasswordRef.current) {
+      resolvePasswordRef.current(null)
+      resolvePasswordRef.current = null
+    }
+    setShowPasswordModal(false)
+  }
+
   // Invia il menu
   const sendMenu = async (formattedText, menuData) => {
     if (!sendTeams && !sendEmail) {
@@ -75,8 +111,17 @@ const useMenuSender = () => {
       return { success: false, message: 'Nessun canale di invio selezionato' }
     }
 
+    // Richiedi la password prima di procedere
+    const password = await requestPasswordConfirmation()
+
+    // Se l'utente ha annullato l'operazione
+    if (password === null) {
+      return { success: false, message: 'Invio annullato' }
+    }
+
     setSending(true)
     setResult({ status: '', message: '' })
+    setPasswordError('')
 
     try {
       const response = await axios.post(URL_API_AZURE, {
@@ -84,6 +129,7 @@ const useMenuSender = () => {
         sendTeams: sendTeams,
         sendEmail: sendEmail,
         date: menuData.date,
+        password: password,
       })
 
       if (response.data && response.data.success) {
@@ -135,6 +181,11 @@ const useMenuSender = () => {
     result,
     formatMenuForSending,
     sendMenu,
+    showPasswordModal,
+    handlePasswordConfirm,
+    handleClosePasswordModal,
+    passwordError,
+    setPasswordError,
   }
 }
 
