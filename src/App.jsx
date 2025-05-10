@@ -5,10 +5,14 @@ import MenuForm from './components/MenuForm'
 import Summary from './components/Summary'
 import SendMenu from './components/SendMenu'
 import ManageSuggestions from './components/ManageSuggestions'
+import packageJson from '../package.json'
 
 function App() {
   // Utilizzo lo stesso valore di base configurato in vite.config.js
   const basename = '/invio-menu-20250509/'
+
+  // Get application version from package.json
+  const appVersion = packageJson.version
 
   return (
     <Router basename={basename}>
@@ -34,7 +38,7 @@ function App() {
           <Container>
             <Navbar.Text className='w-100'>
               &copy; {new Date().getFullYear()} - Applicazione Gestione Menu
-              Mensa
+              Mensa - v{appVersion}
             </Navbar.Text>
           </Container>
         </Navbar>
