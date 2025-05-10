@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Card, Button, Alert, Row, Col, ListGroup, Form } from 'react-bootstrap'
-import menuSuggestions from '../menu-suggestions.json'
+import menuSuggestions from '../assets/data/menu-suggestions.json'
 
 const ManageSuggestions = () => {
   const navigate = useNavigate()
