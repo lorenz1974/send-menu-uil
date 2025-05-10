@@ -1,22 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Card, Button, Row, Col, ListGroup } from 'react-bootstrap'
+import useMenu from '@hooks/useMenu'
 
 const Summary = () => {
   const navigate = useNavigate()
+  const { loadMenu, getFormattedDate } = useMenu()
   const [menuData, setMenuData] = useState(null)
   const [formattedDate, setFormattedDate] = useState('')
 
+  // Carica il menu una sola volta all'avvio del componente
   useEffect(() => {
-    // Carica i dati del menu dal localStorage
-    const storedMenu = JSON.parse(localStorage.getItem('currentMenu') || '{}')
-    setMenuData(storedMenu)
-
-    // Formatta la data in formato italiano (GG/MM/AAAA)
-    if (storedMenu && storedMenu.date) {
-      const [year, month, day] = storedMenu.date.split('-')
-      setFormattedDate(`${day}/${month}/${year}`)
-    }
+    const menu = loadMenu()
+    setMenuData(menu)
+    setFormattedDate(getFormattedDate())
   }, [])
 
   const handleBack = () => {
