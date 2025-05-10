@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import menuSuggestions from '../menu-suggestions.json'
+import menuSuggestions from '../assets/data/menu-suggestions.json'
 
 /**
  * Hook per la gestione dei suggerimenti dei piatti

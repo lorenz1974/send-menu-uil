@@ -10,5 +10,14 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react()],
     base: env.VITE_APP_BASENAME || '/',
+    // [DesignPattern: Configuration] Define path aliases for cleaner imports
+    resolve: {
+      alias: {
+        '@': resolve(__dirname, './src'),
+        '@components': resolve(__dirname, './src/components'),
+        '@assets': resolve(__dirname, './src/assets'),
+        '@hooks': resolve(__dirname, './src/hooks')
+      }
+    }
   }
 })
