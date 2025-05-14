@@ -1,29 +1,54 @@
+/**
+ * Summary Component
+ *
+ * [DesignPattern: Presentational Component] This component implements the presentational
+ * component pattern, showing a summary view of the menu before sending.
+ */
+
+// #region Imports
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Card, Button, Row, Col, ListGroup } from 'react-bootstrap'
-import useMenu from '@hooks/useMenu'
+import { useMenuContext } from '../context/MenuContext'
+import type { MenuData } from '../types'
+// #endregion
 
-const Summary = () => {
+/**
+ * Component for displaying a summary of the menu before sending
+ */
+const Summary: React.FC = () => {
+  // #region Hooks & State
   const navigate = useNavigate()
-  const { loadMenu, getFormattedDate } = useMenu()
-  const [menuData, setMenuData] = useState(null)
-  const [formattedDate, setFormattedDate] = useState('')
+  const { loadMenu, getFormattedDate } = useMenuContext()
+  const [menuData, setMenuData] = useState<MenuData | null>(null)
+  const [formattedDate, setFormattedDate] = useState<string>('')
 
-  // Carica il menu una sola volta all'avvio del componente
+  // Load the menu once when the component mounts
   useEffect(() => {
     const menu = loadMenu()
     setMenuData(menu)
     setFormattedDate(getFormattedDate())
   }, [])
+  // #endregion
 
-  const handleBack = () => {
+  // #region Handlers
+  /**
+   * Navigate back to menu composition
+   */
+  const handleBack = (): void => {
     navigate('/')
   }
 
-  const handleSend = () => {
+  /**
+   * Navigate to send menu page
+   */
+  const handleSend = (): void => {
     navigate('/send')
   }
+  // #endregion
 
+  // #region Rendering
+  // If menu data is not available, show error message
   if (!menuData || Object.keys(menuData).length === 0) {
     return (
       <Card className='shadow'>
@@ -35,7 +60,12 @@ const Summary = () => {
             Non sono stati trovati dati del menu. Torna alla pagina di
             composizione.
           </p>
-          <Button variant='primary' size='lg' onClick={handleBack}>
+          <Button
+            variant='primary'
+            size='lg'
+            onClick={handleBack}
+            aria-label='Torna alla composizione del menu'
+          >
             Torna alla composizione
           </Button>
         </Card.Body>
@@ -43,6 +73,7 @@ const Summary = () => {
     )
   }
 
+  // Render menu summary
   return (
     <Card className='shadow'>
       <Card.Header className='bg-primary text-white'>
@@ -51,6 +82,7 @@ const Summary = () => {
 
       <Card.Body>
         <Row>
+          {/* Primi Piatti */}
           <Col md={4} className='mb-4'>
             <Card className='h-100'>
               <Card.Header className='bg-light'>
@@ -72,6 +104,7 @@ const Summary = () => {
             </Card>
           </Col>
 
+          {/* Secondi Piatti */}
           <Col md={4} className='mb-4'>
             <Card className='h-100'>
               <Card.Header className='bg-light'>
@@ -93,6 +126,7 @@ const Summary = () => {
             </Card>
           </Col>
 
+          {/* Contorni */}
           <Col md={4} className='mb-4'>
             <Card className='h-100'>
               <Card.Header className='bg-light'>
@@ -115,17 +149,29 @@ const Summary = () => {
           </Col>
         </Row>
 
+        {/* Actions */}
         <div className='d-flex flex-column flex-md-row justify-content-between gap-2 mt-4'>
-          <Button variant='secondary' size='lg' onClick={handleBack}>
+          <Button
+            variant='secondary'
+            size='lg'
+            onClick={handleBack}
+            aria-label='Modifica Menu'
+          >
             Modifica Menu
           </Button>
-          <Button variant='primary' size='lg' onClick={handleSend}>
+          <Button
+            variant='primary'
+            size='lg'
+            onClick={handleSend}
+            aria-label='Invia Menu'
+          >
             Invia Menu
           </Button>
         </div>
       </Card.Body>
     </Card>
   )
+  // #endregion
 }
 
 export default Summary

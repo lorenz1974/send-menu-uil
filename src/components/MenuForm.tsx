@@ -1,3 +1,11 @@
+/**
+ * Menu Form Component
+ *
+ * [DesignPattern: Container Component] This component implements the container
+ * component pattern, managing state and business logic for the menu form.
+ */
+
+// #region Imports
 import React, { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import {
@@ -9,11 +17,16 @@ import {
   InputGroup,
   Alert,
 } from 'react-bootstrap'
-import DishCategory from '@components/DishCategory'
-import useMenu from '@hooks/useMenu'
-import useSuggestions from '@hooks/useSuggestions'
+import DishCategory from './DishCategory'
+import { useMenuContext } from '../context/MenuContext'
+import { useSuggestionsContext } from '../context/SuggestionsContext'
+// #endregion
 
-const MenuForm = () => {
+/**
+ * Form for composing the daily menu with multiple dish categories
+ */
+const MenuForm: React.FC = () => {
+  // #region Hooks & State
   const navigate = useNavigate()
   const {
     primi,
@@ -26,25 +39,33 @@ const MenuForm = () => {
     setMenuDate,
     saveMenu,
     resetMenu,
-  } = useMenu()
+  } = useMenuContext()
 
   const { savedPrimi, savedSecondi, savedContorni, message, showMessage } =
-    useSuggestions()
-  const [confirmMessage, setConfirmMessage] = useState('')
+    useSuggestionsContext()
+  const [confirmMessage, setConfirmMessage] = useState<string>('')
+  // #endregion
 
-  // Gestisce il click su "Anteprima e Invio" - salva e naviga alla pagina di riepilogo
-  const handleSubmit = (e) => {
+  // #region Handlers
+  /**
+   * Handle form submission - save and navigate to summary page
+   */
+  const handleSubmit = (e: React.FormEvent): void => {
     e.preventDefault()
     saveMenu()
     navigate('/summary')
   }
 
-  // Aggiunge un reset del form
-  const handleReset = () => {
+  /**
+   * Reset the form to empty state
+   */
+  const handleReset = (): void => {
     resetMenu()
     setConfirmMessage('')
   }
+  // #endregion
 
+  // #region Rendering
   return (
     <Card className='shadow p-0'>
       <Card.Header className='bg-primary text-white'>
@@ -52,6 +73,7 @@ const MenuForm = () => {
       </Card.Header>
 
       <Card.Body>
+        {/* Date picker and manage suggestions link */}
         <Row className='mb-4'>
           <Col md={6} className='mb-3 mb-md-0'>
             <InputGroup>
@@ -60,6 +82,7 @@ const MenuForm = () => {
                 type='date'
                 value={menuDate}
                 onChange={(e) => setMenuDate(e.target.value)}
+                aria-label='Data del menu'
               />
             </InputGroup>
           </Col>
@@ -71,6 +94,7 @@ const MenuForm = () => {
         </Row>
 
         <Form onSubmit={handleSubmit}>
+          {/* Dish categories */}
           <Row xs={1} md={2} lg={3}>
             <Col className='mb-4'>
               <DishCategory
@@ -100,23 +124,35 @@ const MenuForm = () => {
             </Col>
           </Row>
 
+          {/* Confirmation messages */}
           {confirmMessage && (
             <Alert variant='success' className='text-center mb-4'>
               {confirmMessage}
             </Alert>
           )}
 
-          {message && (
+          {showMessage && message && (
             <Alert variant='success' className='text-center mb-4'>
               {message}
             </Alert>
           )}
 
+          {/* Form actions */}
           <div className='d-flex flex-column flex-md-row justify-content-between gap-2'>
-            <Button variant='secondary' size='lg' onClick={handleReset}>
+            <Button
+              variant='secondary'
+              size='lg'
+              onClick={handleReset}
+              aria-label='Nuovo Menu'
+            >
               Nuovo Menu
             </Button>
-            <Button type='submit' variant='primary' size='lg'>
+            <Button
+              type='submit'
+              variant='primary'
+              size='lg'
+              aria-label='Anteprima e Invio'
+            >
               Anteprima e Invio
             </Button>
           </div>
@@ -124,6 +160,7 @@ const MenuForm = () => {
       </Card.Body>
     </Card>
   )
+  // #endregion
 }
 
 export default MenuForm

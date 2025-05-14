@@ -1,51 +1,88 @@
+/**
+ * DishCategory Component
+ *
+ * [DesignPattern: Presentational Component] This component implements the presentational
+ * component pattern, focusing on UI rendering without managing complex state logic.
+ */
+
+// #region Imports
 import React, { useState, useEffect } from 'react'
 import { Card, Form, Button, ListGroup } from 'react-bootstrap'
-import useSuggestions from '@hooks/useSuggestions'
+import type { DishCategoryProps } from '../types'
+// #endregion
 
-const DishCategory = ({ title, dishes, setDishes, savedDishes }) => {
-  const [newDish, setNewDish] = useState('')
-  const [suggestions, setSuggestions] = useState([])
-  const [showSuggestions, setShowSuggestions] = useState(false)
-  const { filterSuggestions } = useSuggestions()
+/**
+ * Component for managing a category of dishes with suggestions and add/remove functionality
+ */
+const DishCategory: React.FC<DishCategoryProps> = ({
+  title,
+  dishes,
+  setDishes,
+  savedDishes = [],
+}) => {
+  // #region State Management
+  const [newDish, setNewDish] = useState<string>('')
+  const [suggestions, setSuggestions] = useState<string[]>([])
+  const [showSuggestions, setShowSuggestions] = useState<boolean>(false)
+  // #endregion
 
+  // #region Filter Suggestions Effect
   useEffect(() => {
-    // Utilizza l'hook personalizzato per filtrare i suggerimenti
-    const filteredSuggestions = filterSuggestions(
-      title.toLowerCase(),
-      newDish,
-      dishes
-    )
-    setSuggestions(filteredSuggestions)
-    // Rimuoviamo filterSuggestions dalle dipendenze per evitare il ciclo infinito
-  }, [newDish, savedDishes, dishes, title])
+    // Filter suggestions based on input and existing dishes
+    const filteredSuggestions = (savedDishes || [])
+      .filter(
+        (suggestion) =>
+          // Filter by input text (case insensitive)
+          suggestion.toLowerCase().includes(newDish.toLowerCase()) &&
+          // Exclude dishes already added
+          !dishes.includes(suggestion)
+      )
+      // Limit to top 10 suggestions
+      .slice(0, 10)
 
-  const handleAddDish = (e) => {
-    // Previene l'invio del form quando si preme il bottone Aggiungi
+    setSuggestions(filteredSuggestions)
+  }, [newDish, savedDishes, dishes])
+  // #endregion
+
+  // #region Handlers
+  /**
+   * Add a new dish to the category
+   */
+  const handleAddDish = (e?: React.FormEvent): void => {
+    // Prevent form submission
     if (e) {
       e.preventDefault()
     }
 
     if (newDish.trim() !== '' && !dishes.includes(newDish)) {
-      // Aggiungi il nuovo piatto e ordina alfabeticamente
+      // Add the new dish and sort alphabetically
       setDishes([...dishes, newDish].sort())
       setNewDish('')
       setShowSuggestions(false)
     }
   }
 
-  const handleRemoveDish = (dishToRemove) => {
+  /**
+   * Remove a dish from the category
+   */
+  const handleRemoveDish = (dishToRemove: string): void => {
     setDishes(dishes.filter((dish) => dish !== dishToRemove))
   }
 
-  const handleSelectSuggestion = (suggestion) => {
+  /**
+   * Select a suggestion from the dropdown
+   */
+  const handleSelectSuggestion = (suggestion: string): void => {
     if (!dishes.includes(suggestion)) {
-      // Aggiungi il suggerimento selezionato e ordina alfabeticamente
+      // Add the selected suggestion and sort alphabetically
       setDishes([...dishes, suggestion].sort())
     }
     setNewDish('')
     setShowSuggestions(false)
   }
+  // #endregion
 
+  // #region Rendering
   return (
     <Card className='h-100 p-1 shadow'>
       <Card.Header className='bg-light'>
@@ -63,8 +100,14 @@ const DishCategory = ({ title, dishes, setDishes, savedDishes }) => {
               }}
               placeholder={`Aggiungi ${title.toLowerCase()}`}
               onKeyDown={(e) => e.key === 'Enter' && handleAddDish(e)}
+              aria-label={`Aggiungi ${title.toLowerCase()}`}
             />
-            <Button size='sm' variant='primary' onClick={handleAddDish}>
+            <Button
+              size='sm'
+              variant='primary'
+              onClick={() => handleAddDish()}
+              aria-label={`Aggiungi ${title.toLowerCase()}`}
+            >
               Aggiungi
             </Button>
           </div>
@@ -94,7 +137,6 @@ const DishCategory = ({ title, dishes, setDishes, savedDishes }) => {
               style={{
                 maxHeight: '250px',
                 overflowY: 'auto',
-                alignItems: 'left',
               }}
             >
               {dishes.map((dish, index) => (
@@ -107,6 +149,7 @@ const DishCategory = ({ title, dishes, setDishes, savedDishes }) => {
                     variant='warning'
                     size='sm'
                     onClick={() => handleRemoveDish(dish)}
+                    aria-label={`Rimuovi ${dish}`}
                   >
                     &times;
                   </Button>
@@ -120,6 +163,7 @@ const DishCategory = ({ title, dishes, setDishes, savedDishes }) => {
       </Card.Body>
     </Card>
   )
+  // #endregion
 }
 
 export default DishCategory

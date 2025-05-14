@@ -1,17 +1,35 @@
-import { useState } from 'react'
+/**
+ * Password Modal Component
+ *
+ * [DesignPattern: Presentational Component] This component implements the presentational
+ * component pattern, focusing on UI rendering with minimal state management.
+ */
+
+// #region Imports
+import React, { useState } from 'react'
 import { Modal, Button, Form, Alert } from 'react-bootstrap'
+import type { PasswordModalProps } from '../types'
+// #endregion
 
 /**
- * Modal per richiedere la password prima dell'invio del menu
- * @param {Object} props - Proprietà del componente
- * @returns {JSX.Element} Componente Modal per inserimento password
+ * Modal for requesting password before sending the menu
  */
-// [DesignPattern: Presentation] Componente di presentazione per la richiesta della password
-const PasswordModal = ({ show, onHide, onConfirm, error }) => {
-  const [password, setPassword] = useState('')
-  const [validated, setValidated] = useState(false)
+const PasswordModal: React.FC<PasswordModalProps> = ({
+  show,
+  onClose,
+  onConfirm,
+  error,
+}) => {
+  // #region State Management
+  const [password, setPassword] = useState<string>('')
+  const [validated, setValidated] = useState<boolean>(false)
+  // #endregion
 
-  const handleSubmit = (e) => {
+  // #region Handlers
+  /**
+   * Handle form submission with validation
+   */
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault()
 
     const form = e.currentTarget
@@ -22,12 +40,24 @@ const PasswordModal = ({ show, onHide, onConfirm, error }) => {
     }
 
     onConfirm(password)
+    setPassword('') // Reset password for security
   }
 
+  /**
+   * Handle modal close with cleanup
+   */
+  const handleClose = (): void => {
+    setPassword('') // Reset password for security
+    setValidated(false)
+    onClose()
+  }
+  // #endregion
+
+  // #region Rendering
   return (
     <Modal
       show={show}
-      onHide={onHide}
+      onHide={handleClose}
       backdrop='static'
       keyboard={false}
       centered
@@ -46,8 +76,10 @@ const PasswordModal = ({ show, onHide, onConfirm, error }) => {
               onChange={(e) => setPassword(e.target.value)}
               required
               autoFocus
+              aria-label='Password'
+              aria-describedby='password-validation'
             />
-            <Form.Control.Feedback type='invalid'>
+            <Form.Control.Feedback type='invalid' id='password-validation'>
               Inserisci la password per continuare.
             </Form.Control.Feedback>
           </Form.Group>
@@ -58,7 +90,7 @@ const PasswordModal = ({ show, onHide, onConfirm, error }) => {
           )}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant='secondary' onClick={onHide}>
+          <Button variant='secondary' onClick={handleClose}>
             Annulla
           </Button>
           <Button variant='primary' type='submit'>
@@ -68,6 +100,7 @@ const PasswordModal = ({ show, onHide, onConfirm, error }) => {
       </Form>
     </Modal>
   )
+  // #endregion
 }
 
 export default PasswordModal
