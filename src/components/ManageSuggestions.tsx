@@ -103,11 +103,14 @@ const ManageSuggestions: React.FC = () => {
 
     if (selectedDishes.contorni.length > 0) {
       addToMenu('contorni', selectedDishes.contorni)
-    }
-
-    // Show success message
+    } // Show success message
     setMessage('Piatti aggiunti al menu con successo')
     setShowMessage(true)
+
+    // Hide message after 3 seconds (in parallel with navigation)
+    setTimeout(() => {
+      setShowMessage(false)
+    }, 3000)
 
     // Navigate back to main page after a short delay
     setTimeout(() => {
