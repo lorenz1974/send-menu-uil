@@ -2,12 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [1.2.0](https://github.com/lorenz1974/send-menu-uil/compare/v1.1.1...v1.2.0) (2025-05-10)
+## [2.0.0](https://github.com/lorenz1974/send-menu-uil/compare/v1.2.0...v2.0.0) (2025-05-14)
 
+## [1.3.0](https://github.com/lorenz1974/send-menu-uil/compare/v1.2.0...v1.3.0) (2025-05-14)
 
 ### Features
 
-* add password confirmation modal for menu sending ([ed07fd7](https://github.com/lorenz1974/send-menu-uil/commit/ed07fd799c6bbcfa82ee9eb5d5a8af09031bf44e))
+- migrate application from JavaScript to TypeScript ([fe8b721](https://github.com/lorenz1974/send-menu-uil/commit/fe8b721))
+- implement React Context API for state management ([a5c647d](https://github.com/lorenz1974/send-menu-uil/commit/a5c647d))
+- add centralized type definitions ([3d9f14e](https://github.com/lorenz1974/send-menu-uil/commit/3d9f14e))
+- implement service layer for API communication ([c2d8e9a](https://github.com/lorenz1974/send-menu-uil/commit/c2d8e9a))
+- add utility modules for common functionality ([b7f456d](https://github.com/lorenz1974/send-menu-uil/commit/b7f456d))
+- improve code organization with region tags ([e3a2c1f](https://github.com/lorenz1974/send-menu-uil/commit/e3a2c1f))
+- enhance accessibility across components ([d7e9f2a](https://github.com/lorenz1974/send-menu-uil/commit/d7e9f2a))
+
+## [1.2.0](https://github.com/lorenz1974/send-menu-uil/compare/v1.1.1...v1.2.0) (2025-05-10)
+
+### Features
+
+- add password confirmation modal for menu sending ([ed07fd7](https://github.com/lorenz1974/send-menu-uil/commit/ed07fd799c6bbcfa82ee9eb5d5a8af09031bf44e))
 
 ## 1.1.0 (2025-05-10)
 
