@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.1](https://github.com/lorenz1974/send-menu-uil/compare/v2.0.0...v2.0.1) (2025-05-14)
+
+
+### Features
+
+* Implement core application structure with context providers for menu management, sending, and suggestions ([8a7577f](https://github.com/lorenz1974/send-menu-uil/commit/8a7577f3a56c4653c2db9e4b6ef59b501e3e2c96))
+
 ## [2.0.0](https://github.com/lorenz1974/send-menu-uil/compare/v1.2.0...v2.0.0) (2025-05-14)
 
 ## [1.3.0](https://github.com/lorenz1974/send-menu-uil/compare/v1.2.0...v1.3.0) (2025-05-14)
