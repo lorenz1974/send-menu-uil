@@ -75,7 +75,7 @@ const MenuForm: React.FC = () => {
       <Card.Body>
         {/* Date picker and manage suggestions link */}
         <Row className='mb-4'>
-          <Col md={6} className='mb-3 mb-md-0'>
+          <Col xs={12} sm={6} lg={4} className='mb-3 mb-md-0'>
             <InputGroup>
               <InputGroup.Text>Data del menu:</InputGroup.Text>
               <Form.Control
@@ -85,11 +85,6 @@ const MenuForm: React.FC = () => {
                 aria-label='Data del menu'
               />
             </InputGroup>
-          </Col>
-          <Col md={6} className='d-flex justify-content-md-end'>
-            <Link to='/suggestions' className='btn btn-info w-100 w-md-auto'>
-              Gestisci Suggerimenti
-            </Link>
           </Col>
         </Row>
 
@@ -146,6 +141,15 @@ const MenuForm: React.FC = () => {
               aria-label='Nuovo Menu'
             >
               Nuovo Menu
+            </Button>
+            <Button
+              as={Link as any}
+              to='/suggestions'
+              variant='warning'
+              size='lg'
+              aria-label='Gestisci Suggerimenti'
+            >
+              Gestisci Suggerimenti
             </Button>
             <Button
               type='submit'

@@ -102,53 +102,77 @@ export const MenuSenderProvider: React.FC<MenuSenderProviderProps> = ({
    *
    * @param menuData - Menu data object with date and dish arrays
    * @returns Formatted HTML for the menu
-   */
-  const formatMenuForSending = (menuData: MenuData): string => {
+   */ const formatMenuForSending = (menuData: MenuData): string => {
     if (!menuData || !menuData.date) return ''
 
     // Format date in Italian format (DD.MM.YYYY)
     const [year, month, day] = menuData.date.split('-')
     const formattedDate = `${day}.${month}.${year}`
 
-    // Create message style
+    // Create message style with customized selectors
     let text = '<style>\n'
-    text += 'h4 { color: #0963c3; }\n'
-    text += 'h5 { color: #FF0000; }\n'
-    text += 'p { padding: 0; margin: 0;}\n'
+    // Main title styles
+    text +=
+      '.menu-title { color: #0963c3; font-size: 18px; font-weight: bold; margin: 10px 0; }\n'
+    // Section styles
+    text += '.menu-section { margin: 15px 0; }\n'
+    // Section title styles
+    text +=
+      '.section-title { color: #FF0000; font-size: 16px; font-weight: bold; margin: 8px 0; }\n'
+    // Dish item styles
+    text += '.menu-item { padding: 3px 0; margin: 0; font-size: 14px; }\n'
+    // Empty section message
+    text +=
+      '.empty-message { padding: 3px 0; margin: 0; font-style: italic; color: #666; }\n'
+    // Footer styles
+    text +=
+      '.menu-footer { color: #0963c3; font-size: 16px; font-weight: bold; margin: 15px 0 5px 0; }\n'
     text += '</style>\n\n'
 
-    text += '<div>\n'
-    // Create formatted menu text
-    text += `<h4>MENU DEL GIORNO ${formattedDate}</h4>\n\n`
+    text += '<div class="menu-container">\n'
+    // Create formatted menu text with custom classes
+    text += `<h4 class="menu-title">MENU DEL GIORNO ${formattedDate}</h4>\n\n`
 
-    text += '<br /><h5><b>PRIMI PIATTI</b></h5>\n'
+    // Primi piatti section
+    text += '<div class="menu-section primi-section">\n'
+    text += '<h5 class="section-title primi-title"><b>PRIMI PIATTI</b></h5>\n'
     if (menuData.primi && menuData.primi.length > 0) {
       menuData.primi.forEach((dish) => {
-        text += `<p>${dish}</p>\n`
+        text += `<p class="menu-item primi-item">${dish}</p>\n`
       })
     } else {
-      text += '<p>Nessun primo piatto disponibile oggi</p>\n'
+      text +=
+        '<p class="empty-message">Nessun primo piatto disponibile oggi</p>\n'
     }
+    text += '</div>\n'
 
-    text += '\n<br /><h5><b>SECONDI PIATTI</b></h5>\n'
+    // Secondi piatti section
+    text += '<div class="menu-section secondi-section">\n'
+    text +=
+      '<h5 class="section-title secondi-title"><b>SECONDI PIATTI</b></h5>\n'
     if (menuData.secondi && menuData.secondi.length > 0) {
       menuData.secondi.forEach((dish) => {
-        text += `<p>${dish}</p>\n`
+        text += `<p class="menu-item secondi-item">${dish}</p>\n`
       })
     } else {
-      text += '<p>Nessun secondo piatto disponibile oggi</p>\n'
+      text +=
+        '<p class="empty-message">Nessun secondo piatto disponibile oggi</p>\n'
     }
+    text += '</div>\n'
 
-    text += '\n<br /><h5><b>CONTORNI</b></h5>\n'
+    // Contorni section
+    text += '<div class="menu-section contorni-section">\n'
+    text += '<h5 class="section-title contorni-title"><b>CONTORNI</b></h5>\n'
     if (menuData.contorni && menuData.contorni.length > 0) {
       menuData.contorni.forEach((dish) => {
-        text += `<p>${dish}</p>\n`
+        text += `<p class="menu-item contorni-item">${dish}</p>\n`
       })
     } else {
-      text += '<p>Nessun contorno disponibile oggi</p>\n'
+      text += '<p class="empty-message">Nessun contorno disponibile oggi</p>\n'
     }
+    text += '</div>\n'
 
-    text += '\n<br /><h4>Buon appetito!</h4>\n'
+    text += '<h4 class="menu-footer">Buon appetito!</h4>\n'
     text += '</div>\n'
 
     return text
