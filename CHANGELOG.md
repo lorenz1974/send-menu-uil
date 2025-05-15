@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.1](https://github.com/lorenz1974/send-menu-uil/compare/v1.2.0...v1.2.1) (2025-05-15)
+
+
+### Features
+
+* update menu suggestions with new dishes and improved organization ([c7d3f5a](https://github.com/lorenz1974/send-menu-uil/commit/c7d3f5a6f5df938de1fa69919847a0245298d40a))
+
 ## [1.2.0](https://github.com/lorenz1974/send-menu-uil/compare/v1.1.1...v1.2.0) (2025-05-10)
 
 
