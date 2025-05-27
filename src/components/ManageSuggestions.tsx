@@ -40,10 +40,7 @@ const ManageSuggestions: React.FC = () => {
     setShowMessage,
   } = useSuggestionsContext()
 
-  // Local state for error messages
-  const [errorMessage, setErrorMessage] = useState<string>('')
-  const [showError, setShowError] = useState<boolean>(false)
-
+  // Using useMenuContext hook to access addToMenu function
   const { addToMenu } = useMenuContext()
 
   // State for dish selections
@@ -284,9 +281,9 @@ const ManageSuggestions: React.FC = () => {
                       <ListGroup.Item
                         key={index}
                         className='d-flex justify-content-between align-items-center'
-                        action
                         active={selectedDishes.primi.includes(dish)}
                         onClick={() => handleSelectDish('primi', dish)}
+                        as='div' // Change from button to div
                       >
                         <div className='d-flex justify-content-start align-content-center'>
                           <Form.Check
@@ -347,9 +344,9 @@ const ManageSuggestions: React.FC = () => {
                       <ListGroup.Item
                         key={index}
                         className='d-flex justify-content-between align-items-center'
-                        action
                         active={selectedDishes.secondi.includes(dish)}
                         onClick={() => handleSelectDish('secondi', dish)}
+                        as='div' // Change from button to div
                       >
                         <div className='d-flex justify-content-start align-content-center'>
                           <Form.Check
@@ -410,9 +407,9 @@ const ManageSuggestions: React.FC = () => {
                       <ListGroup.Item
                         key={index}
                         className='d-flex justify-content-between align-items-center'
-                        action
                         active={selectedDishes.contorni.includes(dish)}
                         onClick={() => handleSelectDish('contorni', dish)}
+                        as='div' // Change from button to div
                       >
                         <div className='d-flex justify-content-start align-content-center'>
                           <Form.Check
