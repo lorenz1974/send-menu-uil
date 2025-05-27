@@ -12,6 +12,7 @@
     "release:major": "standard-version --release-as major",
     "release:minor": "standard-version --release-as minor",
     "release:patch": "standard-version --release-as patch",
+    "publish": "dotenv -- pwsh -Command \"& { Get-ChildItem -Path $env:DEPLOY_PATH -File -Recurse | Remove-Item -Force; Copy-Item -Path '.\\dist\\*' -Destination $env:DEPLOY_PATH -Recurse -Force }\"",
     "flow:init": "git flow init",
     "clean": "rimraf dist"
   },
