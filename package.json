@@ -1,7 +1,7 @@
 {
   "name": "send-menu-uil",
   "private": true,
-  "version": "3.4.0",
+  "version": "3.5.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -12,7 +12,7 @@
     "release:major": "standard-version --release-as major",
     "release:minor": "standard-version --release-as minor",
     "release:patch": "standard-version --release-as patch",
-    "publish": "dotenv -- pwsh -Command \"& { Get-ChildItem -Path $env:DEPLOY_PATH -File -Recurse | Remove-Item -Force; Copy-Item -Path '.\\dist\\*' -Destination $env:DEPLOY_PATH -Recurse -Force }\"",
+    "publish": "tsc && vite build && dotenv -- pwsh -Command \"& { Get-ChildItem -Path $env:DEPLOY_PATH -File -Recurse | Remove-Item -Force; Copy-Item -Path '.\\dist\\*' -Destination $env:DEPLOY_PATH -Recurse -Force }\"",
     "flow:init": "git flow init",
     "clean": "rimraf dist"
   },
