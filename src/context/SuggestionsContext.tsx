@@ -24,6 +24,8 @@ interface SuggestionsContextType {
   savedPrimi: string[]
   savedSecondi: string[]
   savedContorni: string[]
+  savedOpeningPhrases: string[]
+  savedClosingPhrases: string[]
   // UI state
   message: string
   showMessage: boolean
@@ -61,6 +63,8 @@ export const SuggestionsProvider: React.FC<SuggestionsProviderProps> = ({
   const [savedPrimi, setSavedPrimi] = useState<string[]>([])
   const [savedSecondi, setSavedSecondi] = useState<string[]>([])
   const [savedContorni, setSavedContorni] = useState<string[]>([])
+  const [savedOpeningPhrases, setSavedOpeningPhrases] = useState<string[]>([])
+  const [savedClosingPhrases, setSavedClosingPhrases] = useState<string[]>([])
   const [message, setMessage] = useState<string>('')
   const [showMessage, setShowMessage] = useState<boolean>(false)
 
@@ -82,6 +86,12 @@ export const SuggestionsProvider: React.FC<SuggestionsProviderProps> = ({
     )
     setSavedContorni(
       storageAdapter.get<string[]>(STORAGE_KEYS.CONTORNI, []).sort()
+    )
+    setSavedOpeningPhrases(
+      storageAdapter.get<string[]>(STORAGE_KEYS.OPENING_PHRASES, []).sort()
+    )
+    setSavedClosingPhrases(
+      storageAdapter.get<string[]>(STORAGE_KEYS.CLOSING_PHRASES, []).sort()
     )
   }
 
@@ -109,6 +119,17 @@ export const SuggestionsProvider: React.FC<SuggestionsProviderProps> = ({
         setSavedContorni(sortedSuggestions)
         storageAdapter.set(STORAGE_KEYS.CONTORNI, sortedSuggestions)
         break
+      case 'openingPhrases':
+        setSavedOpeningPhrases(sortedSuggestions)
+        storageAdapter.set(STORAGE_KEYS.OPENING_PHRASES, sortedSuggestions)
+        break
+      case 'closingPhrases':
+        setSavedClosingPhrases(sortedSuggestions)
+        storageAdapter.set(STORAGE_KEYS.CLOSING_PHRASES, sortedSuggestions)
+        break
+      default:
+        console.warn(`Unknown category: ${category}`)
+        return
     }
 
     // Show success message
@@ -128,6 +149,8 @@ export const SuggestionsProvider: React.FC<SuggestionsProviderProps> = ({
       savedPrimi,
       savedSecondi,
       savedContorni,
+      savedOpeningPhrases,
+      savedClosingPhrases,
       message,
       showMessage,
       loadSuggestions,
@@ -135,7 +158,15 @@ export const SuggestionsProvider: React.FC<SuggestionsProviderProps> = ({
       setMessage,
       setShowMessage,
     }),
-    [savedPrimi, savedSecondi, savedContorni, message, showMessage]
+    [
+      savedPrimi,
+      savedSecondi,
+      savedContorni,
+      savedOpeningPhrases,
+      savedClosingPhrases,
+      message,
+      showMessage,
+    ]
   )
 
   return (

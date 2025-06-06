@@ -71,6 +71,8 @@ export const STORAGE_KEYS = {
   CURRENT_MENU: 'currentMenu',
   PRIMI: 'primi',
   SECONDI: 'secondi',
-  CONTORNI: 'contorni'
+  CONTORNI: 'contorni',
+  OPENING_PHRASES: 'openingPhrases',
+  CLOSING_PHRASES: 'closingPhrases'
 };
 // #endregion

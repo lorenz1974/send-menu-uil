@@ -15,6 +15,8 @@ export interface MenuData {
   primi: string[];
   secondi: string[];
   contorni: string[];
+  openingPhrases: string[];
+  closingPhrases: string[];
 }
 
 /**
