@@ -14,7 +14,13 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Container, Navbar } from 'react-bootstrap'
-import { MenuForm, Summary, SendMenu, ManageSuggestions, ManagePhrases } from './components'
+import {
+  MenuForm,
+  Summary,
+  SendMenu,
+  ManageSuggestions,
+  ManagePhrases,
+} from './components'
 import { AppProvider } from './context'
 import packageJson from '../package.json'
 // #endregion

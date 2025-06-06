@@ -81,9 +81,19 @@ export const MenuProvider: React.FC<MenuProviderProps> = ({ children }) => {
    * @returns The loaded menu data
    */
   const loadMenu = (): MenuData => {
+    // Initialize with empty arrays and default values
+    const defaultMenu: MenuData = {
+      date: dateUtils.today(),
+      primi: [],
+      secondi: [],
+      contorni: [],
+      openingPhrases: [],
+      closingPhrases: [],
+    }
+
     const currentMenu = storageAdapter.get<MenuData>(
       STORAGE_KEYS.CURRENT_MENU,
-      {} as MenuData
+      defaultMenu
     )
 
     if (currentMenu && Object.keys(currentMenu).length > 0) {
@@ -130,12 +140,24 @@ export const MenuProvider: React.FC<MenuProviderProps> = ({ children }) => {
     storageAdapter.set(STORAGE_KEYS.SECONDI, updatedSecondi)
     storageAdapter.set(STORAGE_KEYS.CONTORNI, updatedContorni)
 
+    // Load saved phrases
+    const savedOpeningPhrases = storageAdapter.get<string[]>(
+      STORAGE_KEYS.OPENING_PHRASES,
+      []
+    )
+    const savedClosingPhrases = storageAdapter.get<string[]>(
+      STORAGE_KEYS.CLOSING_PHRASES,
+      []
+    )
+
     // Save current menu for summary (sorted alphabetically)
     const menuData: MenuData = {
       date: menuDate,
       primi: [...primi].sort(),
       secondi: [...secondi].sort(),
       contorni: [...contorni].sort(),
+      openingPhrases: savedOpeningPhrases,
+      closingPhrases: savedClosingPhrases,
     }
 
     storageAdapter.set(STORAGE_KEYS.CURRENT_MENU, menuData)
