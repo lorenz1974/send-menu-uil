@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.2.0](https://github.com/lorenz1974/send-menu-uil/compare/v3.1.0...v3.2.0) (2025-06-06)
+
+
+### Features
+
+* add publish script for deployment automation ([515462e](https://github.com/lorenz1974/send-menu-uil/commit/515462e99e3170971bd99c3ac152a4c8e40f294b))
+* Add publish script to automate deployment process ([f7d64fd](https://github.com/lorenz1974/send-menu-uil/commit/f7d64fda415e94661e72f6b75e911e098c461b47))
+* Enhance menu formatting and improve API URL handling based on environment ([cbd6fb3](https://github.com/lorenz1974/send-menu-uil/commit/cbd6fb36b79a66888d80b80156c4de35c71981a7))
+
+### [1.2.1](https://github.com/lorenz1974/send-menu-uil/compare/v2.1.0...v1.2.1) (2025-05-15)
+
+
+### Features
+
+* update menu suggestions with new dishes and improved organization ([c7d3f5a](https://github.com/lorenz1974/send-menu-uil/commit/c7d3f5a6f5df938de1fa69919847a0245298d40a))
+
 ### [3.1.1](https://github.com/lorenz1974/send-menu-uil/compare/v3.1.0...v3.1.1) (2025-06-06)
 
 
