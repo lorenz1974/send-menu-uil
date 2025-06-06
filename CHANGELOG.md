@@ -2,29 +2,41 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [3.1.0](https://github.com/lorenz1974/send-menu-uil/compare/v3.0.0...v3.1.0) (2025-05-27)
+### [3.1.1](https://github.com/lorenz1974/send-menu-uil/compare/v3.1.0...v3.1.1) (2025-06-06)
+
 
 ### Features
 
-- Enhance menu suggestions with additional dishes and improved variety ([f2b7b95](https://github.com/lorenz1974/send-menu-uil/commit/f2b7b95dde87b5152343d493b1da71f371e0244e))
+* Add publish script to automate deployment process ([f7d64fd](https://github.com/lorenz1974/send-menu-uil/commit/f7d64fda415e94661e72f6b75e911e098c461b47))
+* Enhance menu formatting and improve API URL handling based on environment ([cbd6fb3](https://github.com/lorenz1974/send-menu-uil/commit/cbd6fb36b79a66888d80b80156c4de35c71981a7))
+
+## [3.1.0](https://github.com/lorenz1974/send-menu-uil/compare/v3.0.0...v3.1.0) (2025-05-27)
+
+
+### Features
+
+* Enhance menu suggestions with additional dishes and improved variety ([f2b7b95](https://github.com/lorenz1974/send-menu-uil/commit/f2b7b95dde87b5152343d493b1da71f371e0244e))
 
 ## [3.0.0](https://github.com/lorenz1974/send-menu-uil/compare/v2.1.0...v3.0.0) (2025-05-27)
 
+
 ### Features
 
-- Update menu suggestions and improve menu formatting for sending ([29f8fd2](https://github.com/lorenz1974/send-menu-uil/commit/29f8fd26212cbce7f117e512e0135aa3789412b3))
+* Update menu suggestions and improve menu formatting for sending ([29f8fd2](https://github.com/lorenz1974/send-menu-uil/commit/29f8fd26212cbce7f117e512e0135aa3789412b3))
 
 ## [2.1.0](https://github.com/lorenz1974/send-menu-uil/compare/v2.0.1...v2.1.0) (2025-05-15)
 
+
 ### Features
 
-- Add timeout to hide success message after adding dishes to menu ([8773c56](https://github.com/lorenz1974/send-menu-uil/commit/8773c56ba42a68de5521ce790082bf4f031a6e32))
+* Add timeout to hide success message after adding dishes to menu ([8773c56](https://github.com/lorenz1974/send-menu-uil/commit/8773c56ba42a68de5521ce790082bf4f031a6e32))
 
 ### [2.0.1](https://github.com/lorenz1974/send-menu-uil/compare/v2.0.0...v2.0.1) (2025-05-14)
 
+
 ### Features
 
-- Implement core application structure with context providers for menu management, sending, and suggestions ([8a7577f](https://github.com/lorenz1974/send-menu-uil/commit/8a7577f3a56c4653c2db9e4b6ef59b501e3e2c96))
+* Implement core application structure with context providers for menu management, sending, and suggestions ([8a7577f](https://github.com/lorenz1974/send-menu-uil/commit/8a7577f3a56c4653c2db9e4b6ef59b501e3e2c96))
 
 ## [2.0.0](https://github.com/lorenz1974/send-menu-uil/compare/v1.2.0...v2.0.0) (2025-05-14)
 
