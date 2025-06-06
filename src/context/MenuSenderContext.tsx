@@ -107,38 +107,71 @@ export const MenuSenderProvider: React.FC<MenuSenderProviderProps> = ({
 
     // Format date in Italian format (DD.MM.YYYY)
     const [year, month, day] = menuData.date.split('-')
-    const formattedDate = `${day}.${month}.${year}`
+    const days = [
+      'Domenica',
+      'Lunedì',
+      'Martedì',
+      'Mercoledì',
+      'Giovedì',
+      'Venerdì',
+      'Sabato',
+    ]
+    const date = new Date(`${year}-${month}-${day}`)
+    const dayOfWeek = days[date.getDay()]
+    const months = [
+      'gennaio',
+      'febbraio',
+      'marzo',
+      'aprile',
+      'maggio',
+      'giugno',
+      'luglio',
+      'agosto',
+      'settembre',
+      'ottobre',
+      'novembre',
+      'dicembre',
+    ]
+    const monthName = months[parseInt(month, 10) - 1]
+    const formattedDate = `${dayOfWeek}, ${parseInt(
+      day,
+      10
+    )} ${monthName} ${year}`
 
     // Create message style with customized selectors
     let text = '<style>\n'
     // Main title styles
+    text +=
+      '.menu-container {  width: fit-content; margin: auto; text-align: left; border: 1px solid #ccc; border-radius: 5px; padding: 10px; }\n'
     text +=
       '.menu-title { color: #0963c3; font-size: 18px; font-weight: bold; margin: 10px 0; }\n'
     // Section styles
     text += '.menu-section { margin: 15px 0; }\n'
     // Section title styles
     text +=
-      '.section-title { color: #FF0000; font-size: 16px; font-weight: bold; margin: 8px 0; }\n'
+      '.section-title { color: #FF0000; font-size: 18px; font-weight: bold; margin: 8px 0; }\n'
     // Dish item styles
-    text += '.menu-item { padding: 3px 0; margin: 0; font-size: 14px; }\n'
+    text +=
+      '.menu-item { padding: 3px 0; margin: 0 0 0 20px; font-size: 14px; }\n'
     // Empty section message
     text +=
       '.empty-message { padding: 3px 0; margin: 0; font-style: italic; color: #666; }\n'
     // Footer styles
     text +=
-      '.menu-footer { color: #0963c3; font-size: 16px; font-weight: bold; margin: 15px 0 5px 0; }\n'
+      '.menu-footer { color: #0963c3; font-size: 18px; font-weight: bold; margin: 10px 0; }\n'
     text += '</style>\n\n'
 
     text += '<div class="menu-container">\n'
     // Create formatted menu text with custom classes
-    text += `<h4 class="menu-title">MENU DEL GIORNO ${formattedDate}</h4>\n\n`
+    text += `<h4 class="menu-title">🍽️ MENU DEL GIORNO - ${formattedDate}</h4>\n\n`
 
     // Primi piatti section
     text += '<div class="menu-section primi-section">\n'
-    text += '<h5 class="section-title primi-title"><b>PRIMI PIATTI</b></h5>\n'
+    text +=
+      '<h5 class="section-title primi-title">🍝 <b>PRIMI PIATTI</b></h5>\n'
     if (menuData.primi && menuData.primi.length > 0) {
       menuData.primi.forEach((dish) => {
-        text += `<p class="menu-item primi-item">${dish}</p>\n`
+        text += `<p class="menu-item primi-item">- ${dish}</p>\n`
       })
     } else {
       text +=
@@ -149,10 +182,10 @@ export const MenuSenderProvider: React.FC<MenuSenderProviderProps> = ({
     // Secondi piatti section
     text += '<div class="menu-section secondi-section">\n'
     text +=
-      '<h5 class="section-title secondi-title"><b>SECONDI PIATTI</b></h5>\n'
+      '<h5 class="section-title secondi-title">🍗 <b>SECONDI PIATTI</b></h5>\n'
     if (menuData.secondi && menuData.secondi.length > 0) {
       menuData.secondi.forEach((dish) => {
-        text += `<p class="menu-item secondi-item">${dish}</p>\n`
+        text += `<p class="menu-item secondi-item">- ${dish}</p>\n`
       })
     } else {
       text +=
@@ -162,18 +195,19 @@ export const MenuSenderProvider: React.FC<MenuSenderProviderProps> = ({
 
     // Contorni section
     text += '<div class="menu-section contorni-section">\n'
-    text += '<h5 class="section-title contorni-title"><b>CONTORNI</b></h5>\n'
+    text += '<h5 class="section-title contorni-title">🥗 <b>CONTORNI</b></h5>\n'
     if (menuData.contorni && menuData.contorni.length > 0) {
       menuData.contorni.forEach((dish) => {
-        text += `<p class="menu-item contorni-item">${dish}</p>\n`
+        text += `<p class="menu-item contorni-item">- ${dish}</p>\n`
       })
     } else {
       text += '<p class="empty-message">Nessun contorno disponibile oggi</p>\n'
     }
     text += '</div>\n'
 
-    text += '<h4 class="menu-footer">Buon appetito!</h4>\n'
-    text += '</div>\n'
+    // footer section
+    text += '<h4  class="menu-footer">😉 Buon appetito! 🎉</h4>\n'
+    text += '</div>\n' // Close menu container
 
     return text
   }

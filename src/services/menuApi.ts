@@ -29,9 +29,27 @@ export const menuApiService = {
     options: MenuSendOptions
   ): Promise<MenuSendResponse> => {
     try {
-      const URL_API_AZURE = import.meta.env.VITE_URL_API_AZURE || '';
+      const URL_API_AZURE_PROD = import.meta.env.VITE_URL_API_AZURE_PROD || '';
+      const URL_API_AZURE_DEV = import.meta.env.VITE_URL_API_AZURE_DEV || '';
 
-      const response = await axios.post(URL_API_AZURE, {
+      // Use the appropriate URL based on environment variables
+      const urlApiAzure = (() => {
+        if (window.location.hostname === 'localhost') {
+          // Use development URL if running locally
+          if (!URL_API_AZURE_DEV) {
+            throw new Error('Development URL is not defined in environment variables.');
+          }
+          return URL_API_AZURE_DEV;
+        } else {
+          if (!URL_API_AZURE_PROD) {
+            // Use production URL if not running locally
+            throw new Error('Production URL is not defined in environment variables.');
+          }
+          return URL_API_AZURE_PROD;
+        }
+      })();
+
+      const response = await axios.post(urlApiAzure, {
         menuText: formattedText,
         sendTeams: options.sendTeams,
         sendEmail: options.sendEmail,
