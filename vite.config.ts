@@ -16,7 +16,11 @@ export default defineConfig(({ mode }) => {
         '@': resolve(__dirname, './src'),
         '@components': resolve(__dirname, './src/components'),
         '@assets': resolve(__dirname, './src/assets'),
-        '@hooks': resolve(__dirname, './src/hooks')
+        '@hooks': resolve(__dirname, './src/hooks'),
+        '@types': resolve(__dirname, './src/types'),
+        '@context': resolve(__dirname, './src/context'),
+        '@utils': resolve(__dirname, './src/utils'),
+        '@services': resolve(__dirname, './src/services')
       }
     }
   }

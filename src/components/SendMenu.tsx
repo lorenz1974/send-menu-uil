@@ -1,13 +1,28 @@
+/**
+ * Send Menu Component
+ *
+ * [DesignPattern: Container Component] This component implements the container
+ * component pattern, managing the send process for the menu.
+ */
+
+// #region Imports
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Card, Button, Form, Alert, Col, Row } from 'react-bootstrap'
-import useMenu from '@hooks/useMenu'
-import useMenuSender from '@hooks/useMenuSender'
+import { useMenuContext } from '../context/MenuContext'
+import { useMenuSenderContext } from '../context/MenuSenderContext'
 import PasswordModal from './PasswordModal'
+import type { MenuData } from '../types'
+// #endregion
 
-const SendMenu = () => {
+/**
+ * Component for configuring and sending the menu via multiple channels
+ */
+const SendMenu: React.FC = () => {
+  // #region Hooks & State
   const navigate = useNavigate()
-  const { loadMenu, resetMenu, getFormattedDate } = useMenu()
+  const { loadMenu, resetMenu, getFormattedDate } = useMenuContext()
+
   const {
     sendTeams,
     setSendTeams,
@@ -21,40 +36,56 @@ const SendMenu = () => {
     handlePasswordConfirm,
     handleClosePasswordModal,
     passwordError,
-  } = useMenuSender()
+  } = useMenuSenderContext()
 
-  const [menuData, setMenuData] = useState(null)
-  const [formattedText, setFormattedText] = useState('')
+  const [menuData, setMenuData] = useState<MenuData | null>(null)
+  const [formattedText, setFormattedText] = useState<string>('')
 
+  // Load menu data when component mounts
   useEffect(() => {
-    // Carica i dati del menu dal localStorage
     const currentMenu = loadMenu()
     setMenuData(currentMenu)
 
     if (currentMenu && currentMenu.date) {
-      // Formatta il testo HTML per l'invio
+      // Format HTML text for sending
       const text = formatMenuForSending(currentMenu)
       setFormattedText(text)
     }
-  }, []) // Array vuoto: l'effetto viene eseguito solo al mount del componente
+  }, [])
+  // #endregion
 
-  const handleBack = () => {
+  // #region Handlers
+  /**
+   * Navigate back to summary page
+   */
+  const handleBack = (): void => {
     navigate('/summary')
   }
 
-  const handleSend = async () => {
+  /**
+   * Handle sending the menu with selected options
+   */
+  const handleSend = async (): Promise<void> => {
     if (!sendTeams && !sendEmail) {
-      return // L'errore è gestito internamente da useMenuSender
+      return // Error is handled internally by useMenuSender
     }
 
-    await sendMenu(formattedText, menuData)
+    if (menuData) {
+      await sendMenu(formattedText, menuData)
+    }
   }
 
-  const handleNewMenu = () => {
+  /**
+   * Reset menu and navigate to composition page
+   */
+  const handleNewMenu = (): void => {
     resetMenu()
     navigate('/')
   }
+  // #endregion
 
+  // #region Rendering
+  // If menu data is not available, show error message
   if (!menuData || Object.keys(menuData).length === 0) {
     return (
       <Card className='shadow text-center'>
@@ -66,7 +97,12 @@ const SendMenu = () => {
             Non sono stati trovati dati del menu. Torna alla pagina di
             composizione.
           </p>
-          <Button variant='primary' size='lg' onClick={() => navigate('/')}>
+          <Button
+            variant='primary'
+            size='lg'
+            onClick={() => navigate('/')}
+            aria-label='Torna alla composizione del menu'
+          >
             Torna alla composizione
           </Button>
         </Card.Body>
@@ -80,7 +116,7 @@ const SendMenu = () => {
     <>
       <PasswordModal
         show={showPasswordModal}
-        onHide={handleClosePasswordModal}
+        onClose={handleClosePasswordModal}
         onConfirm={handlePasswordConfirm}
         error={passwordError}
       />
@@ -91,15 +127,20 @@ const SendMenu = () => {
         </Card.Header>
 
         <Card.Body>
+          {/* Menu Preview */}
           <Card className='mb-4'>
             <Card.Header className='bg-light'>
               <h3 className='mb-0'>Anteprima del messaggio</h3>
             </Card.Header>
             <Card.Body>
-              <div dangerouslySetInnerHTML={{ __html: formattedText }} />
+              <div
+                dangerouslySetInnerHTML={{ __html: formattedText }}
+                aria-label='Anteprima del menu'
+              />
             </Card.Body>
           </Card>
 
+          {/* Send Options */}
           <Card className='mb-4'>
             <Card.Header className='bg-light'>
               <h3 className='mb-0'>Modalità di invio</h3>
@@ -119,6 +160,7 @@ const SendMenu = () => {
                     label='Invia tramite Teams'
                     checked={sendTeams}
                     onChange={() => setSendTeams(!sendTeams)}
+                    aria-label='Invia tramite Teams'
                   />
 
                   <Form.Check
@@ -127,12 +169,14 @@ const SendMenu = () => {
                     label='Invia tramite Email'
                     checked={sendEmail}
                     onChange={() => setSendEmail(!sendEmail)}
+                    aria-label='Invia tramite Email'
                   />
                 </Col>
               </Row>
             </Card.Body>
           </Card>
 
+          {/* Result Messages */}
           {result.status && (
             <Alert
               variant={result.status === 'success' ? 'success' : 'danger'}
@@ -149,12 +193,14 @@ const SendMenu = () => {
             </Alert>
           )}
 
+          {/* Actions */}
           <div className='d-flex flex-column flex-md-row justify-content-between gap-2'>
             <Button
               variant='secondary'
               size='lg'
               onClick={handleBack}
               disabled={sending}
+              aria-label='Torna indietro'
             >
               Indietro
             </Button>
@@ -163,11 +209,17 @@ const SendMenu = () => {
               size='lg'
               onClick={handleSend}
               disabled={sending || (!sendTeams && !sendEmail)}
+              aria-label='Invia menu'
             >
               {sending ? 'Invio in corso...' : 'Invia Menu'}
             </Button>
             {result.status === 'success' && (
-              <Button variant='success' size='lg' onClick={handleNewMenu}>
+              <Button
+                variant='success'
+                size='lg'
+                onClick={handleNewMenu}
+                aria-label='Crea nuovo menu'
+              >
                 Nuovo Menu
               </Button>
             )}
@@ -176,6 +228,7 @@ const SendMenu = () => {
       </Card>
     </>
   )
+  // #endregion
 }
 
 export default SendMenu
