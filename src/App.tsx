@@ -14,7 +14,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Container, Navbar } from 'react-bootstrap'
-import { MenuForm, Summary, SendMenu, ManageSuggestions } from './components'
+import { MenuForm, Summary, SendMenu, ManageSuggestions, ManagePhrases } from './components'
 import { AppProvider } from './context'
 import packageJson from '../package.json'
 // #endregion
@@ -51,6 +51,7 @@ const App: React.FC = () => {
               <Route path='/summary' element={<Summary />} />
               <Route path='/send' element={<SendMenu />} />
               <Route path='/suggestions' element={<ManageSuggestions />} />
+              <Route path='/phrases' element={<ManagePhrases />} />
             </Routes>
           </Container>
 

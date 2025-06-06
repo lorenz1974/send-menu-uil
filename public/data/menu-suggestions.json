@@ -117,5 +117,29 @@
         "Verdure stufate olio e limone",
         "Zucchine a funghetto",
         "Zucchine trifolate"
+    ],
+    "openingPhrases": [
+        "🍽️ Scopri cosa bolle in pentola oggi!",
+        "👩‍🍳 Il nostro team cucina ha preparato per te queste delizie!",
+        "👋 Benvenuto a tavola: ecco il menù del giorno!",
+        "😋 Oggi il gusto è protagonista: scegli il tuo piatto!",
+        "🌞 Un nuovo giorno, nuovi sapori da assaporare.",
+        "✨ Lasciati ispirare dal menù di oggi!",
+        "⏰ Pronto per una pausa ricca di gusto?",
+        "🍝 Il pranzo è servito: guarda cosa abbiamo cucinato!",
+        "🌿 Il nostro menù di oggi ti aspetta con piatti freschi e invitanti.",
+        "🥘 Dalla nostra cucina, solo bontà quotidiane."
+    ],
+    "closingPhrases": [
+        "🍽️ Buon appetito e buona giornata!",
+        "😊 Ti aspettiamo in mensa con il sorriso!",
+        "👨‍🍳 Il nostro staff ti augura buon pranzo!",
+        "🙏 Grazie per aver scelto di mangiare con noi!",
+        "🌞 Un pranzo gustoso è il primo passo per un pomeriggio produttivo.",
+        "🥰 Gusta ogni boccone, lo abbiamo preparato con cura.",
+        "👋 Alla prossima pausa, sempre con gusto!",
+        "🎁 Il menù di domani ti sorprenderà ancora!",
+        "🥂 Buon pranzo e buona compagnia!",
+        "🌾 Cucina semplice, sapori autentici: buon appetito!"
     ]
 }

@@ -142,15 +142,26 @@ const MenuForm: React.FC = () => {
             >
               Nuovo Menu
             </Button>
-            <Button
-              as={Link as any}
-              to='/suggestions'
-              variant='warning'
-              size='lg'
-              aria-label='Gestisci Suggerimenti'
-            >
-              Gestisci Suggerimenti
-            </Button>
+            <div className='d-flex flex-column flex-md-row gap-2'>
+              <Button
+                as={Link as any}
+                to='/suggestions'
+                variant='warning'
+                size='lg'
+                aria-label='Gestisci Suggerimenti'
+              >
+                Gestisci Suggerimenti
+              </Button>
+              <Button
+                as={Link as any}
+                to='/phrases'
+                variant='info'
+                size='lg'
+                aria-label='Gestisci Frasi'
+              >
+                Gestisci Frasi
+              </Button>
+            </div>
             <Button
               type='submit'
               variant='primary'

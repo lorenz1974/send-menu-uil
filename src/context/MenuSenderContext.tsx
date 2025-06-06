@@ -18,6 +18,7 @@ import React, {
 } from 'react'
 import type { MenuData } from '../types'
 import { menuApiService } from '../services/menuApi'
+import { STORAGE_KEYS } from '../utils/storage'
 
 // #region Context Type
 
@@ -138,6 +139,40 @@ export const MenuSenderProvider: React.FC<MenuSenderProviderProps> = ({
       10
     )} ${monthName} ${year}`
 
+    // [DesignPattern: Strategy] Get phrases from localStorage
+    const getRandomPhraseFromStorage = (
+      key: string,
+      defaultPhrase: string
+    ): string => {
+      try {
+        const storedPhrases = localStorage.getItem(key)
+        if (storedPhrases) {
+          const phrases = JSON.parse(storedPhrases) as string[]
+          if (phrases && phrases.length > 0) {
+            return phrases[Math.floor(Math.random() * phrases.length)]
+          }
+        }
+        return defaultPhrase
+      } catch (error) {
+        console.error(
+          `Errore nel recupero frasi da localStorage (${key}):`,
+          error
+        )
+        return defaultPhrase
+      }
+    }
+
+    // Get opening and closing phrases from localStorage
+    const randomOpeningPhrase: string = getRandomPhraseFromStorage(
+      STORAGE_KEYS.OPENING_PHRASES,
+      'Ecco i piatti di oggi:'
+    )
+
+    const randomClosingPhrase: string = getRandomPhraseFromStorage(
+      STORAGE_KEYS.CLOSING_PHRASES,
+      'Buon appetito!'
+    )
+
     // Create message style with customized selectors
     let text = '<style>\n'
     // Main title styles
@@ -164,6 +199,8 @@ export const MenuSenderProvider: React.FC<MenuSenderProviderProps> = ({
     text += '<div class="menu-container">\n'
     // Create formatted menu text with custom classes
     text += `<h4 class="menu-title">🍽️ MENU DEL GIORNO - ${formattedDate}</h4>\n\n`
+
+    text += `<p class="menu-opening">${randomOpeningPhrase}</p>\n\n`
 
     // Primi piatti section
     text += '<div class="menu-section primi-section">\n'
@@ -206,7 +243,7 @@ export const MenuSenderProvider: React.FC<MenuSenderProviderProps> = ({
     text += '</div>\n'
 
     // footer section
-    text += '<h4  class="menu-footer">😉 Buon appetito! 🎉</h4>\n'
+    text += `<h4  class="menu-footer">${randomClosingPhrase}</h4>\n`
     text += '</div>\n' // Close menu container
 
     return text

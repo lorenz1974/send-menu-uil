@@ -10,6 +10,7 @@ export { default as MenuForm } from './MenuForm';
 export { default as Summary } from './Summary';
 export { default as SendMenu } from './SendMenu';
 export { default as ManageSuggestions } from './ManageSuggestions';
+export { default as ManagePhrases } from './ManagePhrases';
 
 // Reusable components
 export { default as DishCategory } from './DishCategory';
