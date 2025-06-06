@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.3.0](https://github.com/lorenz1974/send-menu-uil/compare/v3.2.0...v3.3.0) (2025-06-06)
+
+
+### Features
+
+* Add opening and closing phrases to menu suggestions and update context and storage management ([b03fdc3](https://github.com/lorenz1974/send-menu-uil/commit/b03fdc37b126ab132468ceffb32c6a1206bba0eb))
+* Implement ManagePhrases component for managing opening and closing phrases, update menu suggestions, and integrate phrases into menu sending functionality ([c84ccb9](https://github.com/lorenz1974/send-menu-uil/commit/c84ccb9ceb3eb6b18fa8dd64878a84b8dca18a74))
+
 ## [3.2.0](https://github.com/lorenz1974/send-menu-uil/compare/v3.1.0...v3.2.0) (2025-06-06)
 
 
