@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.5.1](https://github.com/lorenz1974/send-menu-uil/compare/v3.5.0...v3.5.1) (2025-06-09)
+
+
+### Features
+
+* Enhance menu management by adding release:patch script, updating publish command, and improving MenuProvider to handle opening and closing phrases ([e2a43a3](https://github.com/lorenz1974/send-menu-uil/commit/e2a43a3434f91dccdb63cfc8b4ae006d5d24594c))
+* Update DishCategory component to improve suggestion filtering logic and remove suggestion limit ([aeea336](https://github.com/lorenz1974/send-menu-uil/commit/aeea336137e1167f74948e9972ce785b28f50cd9))
+
 ## [3.5.0](https://github.com/lorenz1974/send-menu-uil/compare/v3.4.0...v3.5.0) (2025-06-06)
 
 ## [3.4.0](https://github.com/lorenz1974/send-menu-uil/compare/v3.3.0...v3.4.0) (2025-06-06)
