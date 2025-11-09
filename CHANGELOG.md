@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.6.0](https://github.com/lorenz1974/send-menu-uil/compare/v3.5.2...v3.6.0) (2025-11-09)
+
+
+### Features
+
+* Add comprehensive menu suggestions with various categories and phrases ([64cff4e](https://github.com/lorenz1974/send-menu-uil/commit/64cff4e03c1ef73e5682605746c4f47db138d7b0))
+
 ### [3.5.2](https://github.com/lorenz1974/send-menu-uil/compare/v3.5.1...v3.5.2) (2025-06-09)
 
 ### [3.5.1](https://github.com/lorenz1974/send-menu-uil/compare/v3.5.0...v3.5.1) (2025-06-09)
